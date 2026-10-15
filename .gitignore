@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+miniconda3/
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# EDA Outputs (large binaries)
+output/*.gds
+!output/preliminary_3d_test.gds
+
+# Logs
+*.log
+
+# External reference repositories (managed via scripts/setup_externals.sh)
+external/
+
+# OS artifacts
+.DS_Store
+Thumbs.db

@@ -1,0 +1,22 @@
+name: lidar3d
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - gdsfactory==9.23.0
+      - ubcpdk==3.3.2
+      - sax==0.16.14
+      - gplugins==2.0.1
+      - klayout==0.30.6
+      - scipy==1.17.1
+      - networkx==3.6.1
+      - shapely==2.2.0
+      - matplotlib==3.11.2
+      - numba==0.68.0
+      - ryaml==0.5.1
+      - multimethod==2.1
+      - jax==0.9.2
+      - jaxlib==0.9.2
+      - pytest==9.1.1
