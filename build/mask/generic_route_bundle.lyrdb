@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<report-database>
+ <description/>
+ <original-file/>
+ <generator/>
+ <top-cell/>
+ <tags>
+ </tags>
+ <categories>
+  <category>
+   <name>o3 - o1</name>
+   <description/>
+   <categories>
+   </categories>
+  </category>
+ </categories>
+ <cells>
+  <cell>
+   <name>mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_be72d796</name>
+   <variant/>
+   <layout-name/>
+   <references>
+   </references>
+  </cell>
+ </cells>
+ <items>
+  <item>
+   <tags/>
+   <category>'o3 - o1'</category>
+   <cell>mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_be72d796</cell>
+   <visited>false</visited>
+   <multiplicity>1</multiplicity>
+   <comment/>
+   <image/>
+   <values>
+    <value>text: 'Error while trying to place route from o3 to o1 at points (dbu): [91000,50625, 94250,50625, 94250,49375, 290000,49375]'</value>
+    <value>text: 'Exception: Cell \'mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_be72d796\' cannot be modified as it is locked in Shapes.insert'</value>
+    <value>polygon: (94,49.125;94,50.375;91,50.375;91,50.875;94.5,50.875;94.5,49.625;290,49.625;290,49.125)</value>
+   </values>
+  </item>
+ </items>
+</report-database>
