@@ -6,17 +6,15 @@ import gdsfactory as gf
 pdk = gf.get_active_pdk()
 
 # 2. Load the netlist JSON file
-json_path = "./Crossbar_8x8_ref.yaml"
-with open(json_path, "r") as f:
-    netlist_dict = json.load(f)
+Yaml_path = "./Test_Json_to_yaml/crossbar_4x4.pic.yml"
 
 # 3. Generate the component from the netlist dictionary
 # This automatically places cells and routes waveguides between designated ports
-circuit_component = gf.read.from_yaml(netlist_dict) 
+circuit_component = gf.read.from_yaml(Yaml_path) 
 # Note: gdsfactory natively processes dicts/YAML maps via from_yaml or from_dict
 
 # 4. Write the physical layout directly to a GDS file
-gds_output_path = "./output/Crossbar_4x4.gds"
+gds_output_path = "./output/crossbar_4x4.gds"
 circuit_component.write_gds(gds_output_path)
 
-print(f"Successfully converted {json_path} into {gds_output_path}!")
+print(f"Successfully converted {Yaml_path} into {gds_output_path}!")

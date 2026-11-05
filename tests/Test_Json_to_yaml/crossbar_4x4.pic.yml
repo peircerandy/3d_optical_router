@@ -1,0 +1,107 @@
+name: crossbar_4x4_mzi
+
+# 4x4 optical crossbar switch matrix built from 2x2 MZI switches.
+#
+# Topology (one MZI per crosspoint, 16 total):
+#   - Row i (input i) enters mzi_i_0 on port o1 and travels east:
+#       mzi_i_j.o3 -> mzi_i_(j+1).o1
+#   - Column j travels south:
+#       mzi_i_j.o4 -> mzi_(i+1)_j.o2
+#   - Outputs are taken from the bottom row: mzi_3_j.o4 -> out_j
+#   - Bar state: light continues along its row (o1 -> o3).
+#   - Cross state: light is steered down the column (o1 -> o4).
+#     Setting mzi_i_j to cross routes input i to output j.
+#
+# Port assumption for mzi2x2_2x2_phase_shifter: o1,o2 on the west side,
+# o3,o4 on the east side. Verify with gf.components.mzi2x2_2x2_phase_shifter().ports
+# in your installed gdsfactory version and swap o3/o4 (or o1/o2) below if needed.
+#
+# Pitch: 400 um (x) and 300 um (y). Increase if routes collide with the MZI
+# bodies in your PDK.
+
+instances:
+  mzi_0_0: {component: mzi2x2_2x2_phase_shifter}
+  mzi_0_1: {component: mzi2x2_2x2_phase_shifter}
+  mzi_0_2: {component: mzi2x2_2x2_phase_shifter}
+  mzi_0_3: {component: mzi2x2_2x2_phase_shifter}
+  mzi_1_0: {component: mzi2x2_2x2_phase_shifter}
+  mzi_1_1: {component: mzi2x2_2x2_phase_shifter}
+  mzi_1_2: {component: mzi2x2_2x2_phase_shifter}
+  mzi_1_3: {component: mzi2x2_2x2_phase_shifter}
+  mzi_2_0: {component: mzi2x2_2x2_phase_shifter}
+  mzi_2_1: {component: mzi2x2_2x2_phase_shifter}
+  mzi_2_2: {component: mzi2x2_2x2_phase_shifter}
+  mzi_2_3: {component: mzi2x2_2x2_phase_shifter}
+  mzi_3_0: {component: mzi2x2_2x2_phase_shifter}
+  mzi_3_1: {component: mzi2x2_2x2_phase_shifter}
+  mzi_3_2: {component: mzi2x2_2x2_phase_shifter}
+  mzi_3_3: {component: mzi2x2_2x2_phase_shifter}
+
+placements:
+  mzi_0_0: {x: 0,    y: 0}
+  mzi_0_1: {x: 400,  y: 0}
+  mzi_0_2: {x: 800,  y: 0}
+  mzi_0_3: {x: 1200, y: 0}
+  mzi_1_0: {x: 0,    y: -300}
+  mzi_1_1: {x: 400,  y: -300}
+  mzi_1_2: {x: 800,  y: -300}
+  mzi_1_3: {x: 1200, y: -300}
+  mzi_2_0: {x: 0,    y: -600}
+  mzi_2_1: {x: 400,  y: -600}
+  mzi_2_2: {x: 800,  y: -600}
+  mzi_2_3: {x: 1200, y: -600}
+  mzi_3_0: {x: 0,    y: -900}
+  mzi_3_1: {x: 400,  y: -900}
+  mzi_3_2: {x: 800,  y: -900}
+  mzi_3_3: {x: 1200, y: -900}
+
+routes:
+  # Row (horizontal) connections: o3 -> o1 of the next column
+  rows:
+    routing_strategy: route_single
+    settings:
+      cross_section: strip
+    links:
+      mzi_0_0,o3: mzi_0_1,o1
+      mzi_0_1,o3: mzi_0_2,o1
+      mzi_0_2,o3: mzi_0_3,o1
+      mzi_1_0,o3: mzi_1_1,o1
+      mzi_1_1,o3: mzi_1_2,o1
+      mzi_1_2,o3: mzi_1_3,o1
+      mzi_2_0,o3: mzi_2_1,o1
+      mzi_2_1,o3: mzi_2_2,o1
+      mzi_2_2,o3: mzi_2_3,o1
+      mzi_3_0,o3: mzi_3_1,o1
+      mzi_3_1,o3: mzi_3_2,o1
+      mzi_3_2,o3: mzi_3_3,o1
+
+  # Column (vertical) connections: o4 -> o2 of the next row
+  columns:
+    routing_strategy: route_single
+    settings:
+      cross_section: strip
+    links:
+      mzi_0_0,o4: mzi_1_0,o2
+      mzi_1_0,o4: mzi_2_0,o2
+      mzi_2_0,o4: mzi_3_0,o2
+      mzi_0_1,o4: mzi_1_1,o2
+      mzi_1_1,o4: mzi_2_1,o2
+      mzi_2_1,o4: mzi_3_1,o2
+      mzi_0_2,o4: mzi_1_2,o2
+      mzi_1_2,o4: mzi_2_2,o2
+      mzi_2_2,o4: mzi_3_2,o2
+      mzi_0_3,o4: mzi_1_3,o2
+      mzi_1_3,o4: mzi_2_3,o2
+      mzi_2_3,o4: mzi_3_3,o2
+
+ports:
+  # Optical inputs (west edge, row inputs)
+  in_0: mzi_0_0,o1
+  in_1: mzi_1_0,o1
+  in_2: mzi_2_0,o1
+  in_3: mzi_3_0,o1
+  # Optical outputs (bottom row, column outputs)
+  out_0: mzi_3_0,o4
+  out_1: mzi_3_1,o4
+  out_2: mzi_3_2,o4
+  out_3: mzi_3_3,o4

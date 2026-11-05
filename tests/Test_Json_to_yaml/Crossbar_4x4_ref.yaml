@@ -1,0 +1,119 @@
+instances:
+  OSU11:
+    component: mzi2x2_2x2
+  OSU12:
+    component: mzi2x2_2x2
+  OSU13:
+    component: mzi2x2_2x2
+  OSU14:
+    component: mzi2x2_2x2
+  OSU21:
+    component: mzi2x2_2x2
+  OSU22:
+    component: mzi2x2_2x2
+  OSU23:
+    component: mzi2x2_2x2
+  OSU24:
+    component: mzi2x2_2x2
+  OSU31:
+    component: mzi2x2_2x2
+  OSU32:
+    component: mzi2x2_2x2
+  OSU33:
+    component: mzi2x2_2x2
+  OSU34:
+    component: mzi2x2_2x2
+  OSU41:
+    component: mzi2x2_2x2
+  OSU42:
+    component: mzi2x2_2x2
+  OSU43:
+    component: mzi2x2_2x2
+  OSU44:
+    component: mzi2x2_2x2
+placements:
+  OSU11:
+    x: 0.0
+    y: 0.0
+  OSU12:
+    x: 200.0
+    y: 0.0
+  OSU13:
+    x: 400.0
+    y: 0.0
+  OSU14:
+    x: 600.0
+    y: 0.0
+  OSU21:
+    x: 0.0
+    y: -200.0
+  OSU22:
+    x: 200.0
+    y: -200.0
+  OSU23:
+    x: 400.0
+    y: -200.0
+  OSU24:
+    x: 600.0
+    y: -200.0
+  OSU31:
+    x: 0.0
+    y: -400.0
+  OSU32:
+    x: 200.0
+    y: -400.0
+  OSU33:
+    x: 400.0
+    y: -400.0
+  OSU34:
+    x: 600.0
+    y: -400.0
+  OSU41:
+    x: 0.0
+    y: -600.0
+  OSU42:
+    x: 200.0
+    y: -600.0
+  OSU43:
+    x: 400.0
+    y: -600.0
+  OSU44:
+    x: 600.0
+    y: -600.0
+routes:
+  optical:
+    links:
+      OSU11,o3: OSU12,o2
+      OSU12,o3: OSU13,o2
+      OSU13,o3: OSU14,o2
+      OSU21,o3: OSU22,o2
+      OSU22,o3: OSU23,o2
+      OSU23,o3: OSU24,o2
+      OSU31,o3: OSU32,o2
+      OSU32,o3: OSU33,o2
+      OSU33,o3: OSU34,o2
+      OSU41,o3: OSU42,o2
+      OSU42,o3: OSU43,o2
+      OSU43,o3: OSU44,o2
+      OSU11,o4: OSU21,o1
+      OSU21,o4: OSU31,o1
+      OSU31,o4: OSU41,o1
+      OSU12,o4: OSU22,o1
+      OSU22,o4: OSU32,o1
+      OSU32,o4: OSU42,o1
+      OSU13,o4: OSU23,o1
+      OSU23,o4: OSU33,o1
+      OSU33,o4: OSU43,o1
+      OSU14,o4: OSU24,o1
+      OSU24,o4: OSU34,o1
+      OSU34,o4: OSU44,o1
+    routing_strategy: route_bundle
+ports:
+  I1: OSU11,o2
+  I2: OSU21,o2
+  I3: OSU31,o2
+  I4: OSU41,o2
+  O1: OSU41,o4
+  O2: OSU42,o4
+  O3: OSU43,o4
+  O4: OSU44,o4
