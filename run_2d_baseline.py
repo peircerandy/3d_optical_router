@@ -18,8 +18,8 @@ def build_2d_benes4x4():
     # 1. Component Placement
     # In a Benes 4x4: 3 stages of 2 OSUs each.
     # Stage 0: OSU1, OSU2 | Stage 1: OSU3, OSU4 | Stage 2: OSU5, OSU6
-    stage_x_pitch = 300.0  # um between stages
-    osu_y_pitch   = 100.0  # um between switches in a stage
+    stage_x_pitch = 400.0  # um between stages
+    osu_y_pitch   = 250.0  # um between switches in a stage
 
     osu_coords = {
         "OSU1": (0.0 * stage_x_pitch,  0.5 * osu_y_pitch),
@@ -51,8 +51,8 @@ def build_2d_benes4x4():
         p1 = instances[src_inst].ports[port_map[src_p]]
         p2 = instances[dst_inst].ports[port_map[dst_p]]
 
-        # Standard 2D curvy route
-        route = gf.routing.route_single(c, p1, p2, radius=10.0, layer = 0, route_width = 5)
+        # Standard 2D curvy route using generic PDK strip cross-section
+        route = gf.routing.route_single(c, port1=p1, port2=p2, cross_section="strip")
         routes.append(route)
 
     # 3. Export to GDSII
