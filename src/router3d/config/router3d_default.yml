@@ -9,21 +9,54 @@ dr:
   net_order: "topo"   # topo, naive
   group: True
   enable_45_neighbor: True
-  historyCost: 1000
   ripup_times: 10
 
-  grid_resolution: 2
-  bend_radius: 5
+  grid_resolution: 2  # um (pitch / spacing S_gap >= 1.5 - 2.0 um)
   net_bound_scale_factor: 1.5
   net_default_bound: 100
 
-  loss_propagation: 1.5
-  loss_bending: 50
-  loss_crossing: 0
-  loss_congestion: 500
+  # ============================================================================
+  # Multi-Tier Optical Layer Stack (General to N layers & materials)
+  # ============================================================================
+  layers:
+    0:
+      name: "Si"
+      material: "Silicon"
+      gds_layer: [1, 0]
+      loss_propagation: 1.5   # dB/cm (Sacher et al.)
+      loss_bend: 0.03         # dB per 90-deg bend (Cherchi et al.)
+      bend_radius: 5.0        # um minimum bend radius (Euler Reff = 5.4 um)
+      waveguide_width: 0.5    # um single-mode width @ 1550 nm
+      loss_crossing: 0.18     # dB per in-plane crossing (Zhou et al.)
+      allow_crossings: true   # Planar crossings permitted on active tier
+
+    1:
+      name: "SiN"
+      material: "Silicon Nitride"
+      gds_layer: [2, 0]
+      loss_propagation: 0.15  # dB/cm (Xia et al.)
+      loss_bend: 0.01         # dB per 90-deg bend
+      bend_radius: 25.0       # um minimum bend radius
+      waveguide_width: 0.8    # um single-mode width @ 1550 nm
+      loss_crossing: 0.35     # dB per crossing (if ever enabled)
+      allow_crossings: false  # Overpass routing tier (zero crossing degradation)
+
+  # ============================================================================
+  # Inter-Tier Transitions (Couplers / 3D Vias between adjacent tiers)
+  # ============================================================================
+  transitions:
+    "0-1":
+      name: "Si_to_SiN_adiabatic"
+      loss_taper: 0.08        # dB per transition (Li et al.)
+      taper_length: 55.0      # um length along waveguide vector (Li et al.)
+      taper_width: 2.0        # um transverse width
+      bidirectional: true
+
+  # ============================================================================
+  # NRR Congestion & Rip-Up Costs (Calibrated in equivalent dB)
+  # ============================================================================
+  loss_congestion: 1.0        # dB equivalent penalty for routing through congested cells
+  historyCost: 2.0            # dB added to history map per rip-up collision
 
 show_temp: False
-
-eval: "comp"    # noc, comp
-il_cross: 0.5
-  
+eval: "comp"                  # noc, comp
