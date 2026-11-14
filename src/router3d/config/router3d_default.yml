@@ -12,6 +12,7 @@ dr:
   ripup_times: 10
 
   grid_resolution: 2  # um (pitch / spacing S_gap >= 1.5 - 2.0 um)
+  bend_radius: 5.0    # default / fallback radius (um)
   net_bound_scale_factor: 1.5
   net_default_bound: 100
 
@@ -24,7 +25,7 @@ dr:
       material: "Silicon"
       gds_layer: [1, 0]
       loss_propagation: 1.5   # dB/cm (Sacher et al.)
-      loss_bend: 0.03         # dB per 90-deg bend (Cherchi et al.)
+      loss_bending: 0.03      # dB per 90-deg bend (Cherchi et al.)
       bend_radius: 5.0        # um minimum bend radius (Euler Reff = 5.4 um)
       waveguide_width: 0.5    # um single-mode width @ 1550 nm
       loss_crossing: 0.18     # dB per in-plane crossing (Zhou et al.)
@@ -35,7 +36,7 @@ dr:
       material: "Silicon Nitride"
       gds_layer: [2, 0]
       loss_propagation: 0.15  # dB/cm (Xia et al.)
-      loss_bend: 0.01         # dB per 90-deg bend
+      loss_bending: 0.01      # dB per 90-deg bend
       bend_radius: 25.0       # um minimum bend radius
       waveguide_width: 0.8    # um single-mode width @ 1550 nm
       loss_crossing: 0.35     # dB per crossing (if ever enabled)
@@ -53,10 +54,12 @@ dr:
       bidirectional: true
 
   # ============================================================================
-  # NRR Congestion & Rip-Up Costs (Calibrated in equivalent dB)
+  # NRR Congestion & Rip-Up Costs (Calibrated in physical dB equivalents)
   # ============================================================================
   loss_congestion: 1.0        # dB equivalent penalty for routing through congested cells
   historyCost: 2.0            # dB added to history map per rip-up collision
 
+# Evaluation and backwards-compatibility aliases for unmodified drgridroute.py
+il_cross: 0.18                # dB per crossing (Zhou et al. LiDAR paper calibrated)
 show_temp: False
 eval: "comp"                  # noc, comp
