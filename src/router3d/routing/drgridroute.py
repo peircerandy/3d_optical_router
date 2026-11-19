@@ -602,7 +602,7 @@ class DrGridRoute(object):
         ports1 = set(net.NetPort1.port_grids)
         ports2 = set(net.NetPort2.port_grids)
         for point in path:
-            x, y, ori = point
+            x, y, ori = point[:3]
             check = (x, y)
             if check in ports1 or check in ports2:
                 continue
@@ -847,6 +847,9 @@ class DrGridRoute(object):
         propagation_loss = self.prop * 1e-4
         bending_loss = 0.01 / 90
         crossing_loss = self.cross
+        transitions_cfg = self._config.dr.get("transitions", {})
+        default_trans = transitions_cfg.get("0-1", {})
+        via_loss = float(default_trans.get("loss_taper", 0.08))
 
         dbNets = self._cirdb.dbNets
         DRV = 0
@@ -860,14 +863,16 @@ class DrGridRoute(object):
                     output_device_loss = self._cirdb.device_loss[output_inst]
                     device_loss += output_device_loss
 
+                via_count = getattr(current_net, "via_num", 0)
                 insertion_loss = (
                     current_net.wirelength * propagation_loss
                     + current_net.bending * bending_loss
                     + current_net.crossing_num * crossing_loss
+                    + via_count * via_loss
                 ) + device_loss
                 DRV += current_net.vionets
                 print(
-                    f"Net: {net_name}, WL: {current_net.wirelength:.3f} um, Accumulated bend: {current_net.bending:.1f},Crossing: {current_net.crossing_num}, insertion loss: {insertion_loss}, DRV: {current_net.vionets}"
+                    f"Net: {net_name}, WL: {current_net.wirelength:.3f} um, Accumulated bend: {current_net.bending:.1f}, Crossing: {current_net.crossing_num}, Vias: {via_count}, insertion loss: {insertion_loss:.3f}, DRV: {current_net.vionets}"
                 )
                 self._cirdb._netlist_graph.add_edge(
                     current_net.NetPort1.idBlk,
@@ -881,6 +886,7 @@ class DrGridRoute(object):
             node_num = len(criticalPath)
             nets = []
             crossing = 0
+            vias = 0
             WL = 0
             DRV_path = 0
             for i, value in enumerate(criticalPath):
@@ -888,11 +894,12 @@ class DrGridRoute(object):
                     edge = self._cirdb._netlist_graph[value][criticalPath[i + 1]]
                     net = edge["label"]
                     crossing += dbNets[net].crossing_num
+                    vias += getattr(dbNets[net], "via_num", 0)
                     WL += dbNets[net].wirelength
                     DRV_path += dbNets[net].vionets
                     nets.append(net)
             print(
-                f"criticalPath: {nets}, WL: {WL:.2f}, crossing: {crossing}, Max Insertion loss: {lenCriticalPath:.3f}, DRV: {DRV}, DRV_path: {DRV_path}"
+                f"criticalPath: {nets}, WL: {WL:.2f}, crossing: {crossing}, vias: {vias}, Max Insertion loss: {lenCriticalPath:.3f}, DRV: {DRV}, DRV_path: {DRV_path}"
             )
         else:
             i = 0
@@ -903,14 +910,16 @@ class DrGridRoute(object):
             DRV = 0
             for net_name, current_net in dbNets.items():
                 i += 1
+                via_count = getattr(current_net, "via_num", 0)
                 insertion_loss = (
                     current_net.wirelength * propagation_loss
                     + current_net.bending * bending_loss
                     + current_net.crossing_num * crossing_loss
+                    + via_count * via_loss
                 )
                 DRV += current_net.vionets
                 print(
-                    f"Net: {net_name}, WL: {current_net.wirelength:.3f} um, Accumulated bend: {current_net.bending:.1f}, Crossing: {current_net.crossing_num}, insertion loss: {insertion_loss}, DRV: {current_net.vionets}"
+                    f"Net: {net_name}, WL: {current_net.wirelength:.3f} um, Accumulated bend: {current_net.bending:.1f}, Crossing: {current_net.crossing_num}, Vias: {via_count}, insertion loss: {insertion_loss:.3f}, DRV: {current_net.vionets}"
                 )
                 if i <= 8 and insertion_loss > ilmax1:
                     ilmax1 = insertion_loss

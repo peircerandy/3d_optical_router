@@ -317,6 +317,14 @@ class AstarSearch:
     def _build_state_machine_for_layer(
         self, layer_id: int, radius: float, alpha: float, loss_bending: float
     ):
+        """Constructs discrete A* step transitions and step costs for a given layer.
+
+        NOTE (Upstream LiDAR Heritage):
+        In original 2D LiDAR, experimental 'offset_neighbors' and 'extra_length'
+        candidates were disabled in-place as inline scratchpad comments.
+        Refactored here into an active per-layer state machine generator supporting
+        heterogeneous bend radii (e.g. 5 um Si vs 25 um SiN) and physical loss metrics.
+        """
         resolution = self.resolution
         grid_radius = math.ceil(radius / resolution)
         bend45_1 = math.ceil(radius * 0.415 / resolution)
@@ -413,6 +421,9 @@ class AstarSearch:
 
         self.nextSteps = {}
         self.stepG = {}
+        self.grid_radii = {}
+        self.bend45_1_map = {}
+        self.bend45_2_map = {}
         for z in self.layers:
             z_int = int(z)
             r = self.bend_radii[z_int]
@@ -423,6 +434,9 @@ class AstarSearch:
             )
             self.nextSteps[z_int] = nSteps
             self.stepG[z_int] = sG
+            self.grid_radii[z_int] = g_rad
+            self.bend45_1_map[z_int] = b45_1
+            self.bend45_2_map[z_int] = b45_2
             if z_int == 0:
                 self.bend45_1 = b45_1
                 self.bend45_2 = b45_2
@@ -609,6 +623,159 @@ class AstarSearch:
         else:
             return False, "None", 0
 
+    def _create_adiabatic_coupler(
+        self,
+        start_pt,
+        end_pt,
+        from_layer=0,
+        to_layer=1,
+    ):
+        """Generates a physical bi-level adiabatic taper transition component between Si and SiN tiers.
+
+        Places:
+        - Layer (1, 0): Silicon taper core
+        - Layer (2, 0): Silicon Nitride taper core
+        - Layer (3, 0): Vertical optical coupler keep-out / via window
+        """
+        c = gf.Component(f"via3d_{from_layer}_to_{to_layer}_{int(start_pt[0])}_{int(start_pt[1])}")
+        x1, y1 = start_pt
+        x2, y2 = end_pt
+        dx = x2 - x1
+        dy = y2 - y1
+        length = math.hypot(dx, dy)
+        angle = math.degrees(math.atan2(dy, dx))
+
+        si_info = self.layers.get(0, {})
+        sin_info = self.layers.get(1, {})
+        w_si = float(si_info.get("waveguide_width", 0.5))
+        w_sin = float(sin_info.get("waveguide_width", 0.8))
+        tip_w = 0.15
+        layer_si = tuple(si_info.get("gds_layer", [1, 0]))
+        layer_sin = tuple(sin_info.get("gds_layer", [2, 0]))
+        layer_via = (3, 0)
+
+        # Si taper profile
+        w_si_start = w_si if from_layer == 0 else tip_w
+        w_si_end = tip_w if from_layer == 0 else w_si
+
+        # SiN taper profile
+        w_sin_start = tip_w if from_layer == 0 else w_sin
+        w_sin_end = w_sin if from_layer == 0 else tip_w
+
+        si_poly = [
+            (0.0, -w_si_start / 2),
+            (length, -w_si_end / 2),
+            (length, w_si_end / 2),
+            (0.0, w_si_start / 2),
+        ]
+        sin_poly = [
+            (0.0, -w_sin_start / 2),
+            (length, -w_sin_end / 2),
+            (length, w_sin_end / 2),
+            (0.0, w_sin_start / 2),
+        ]
+        trans_def = self.transitions.get("0-1", {})
+        via_w = float(trans_def.get("taper_width", 2.0))
+        via_poly = [
+            (0.0, -via_w / 2),
+            (length, -via_w / 2),
+            (length, via_w / 2),
+            (0.0, via_w / 2),
+        ]
+
+        rad = math.radians(angle)
+        cos_a = math.cos(rad)
+        sin_a = math.sin(rad)
+
+        def transform(pts):
+            return [
+                (px * cos_a - py * sin_a + x1, px * sin_a + py * cos_a + y1)
+                for px, py in pts
+            ]
+
+        c.add_polygon(points=transform(si_poly), layer=layer_si)
+        c.add_polygon(points=transform(sin_poly), layer=layer_sin)
+        c.add_polygon(points=transform(via_poly), layer=layer_via)
+        return c, length
+
+    def _hard_connection_3d(self, currentNode, path, origin_path, violatedNets, radius=5):
+        """Partitions multi-tier paths into per-layer subpaths and adiabatic couplers."""
+        subpaths = []
+        transitions = []
+        curr_subpath = [origin_path[0]]
+        curr_layer = origin_path[0][3] if len(origin_path[0]) > 3 else 0
+
+        for pt in origin_path[1:]:
+            pt_layer = pt[3] if len(pt) > 3 else 0
+            if pt_layer == curr_layer:
+                curr_subpath.append(pt)
+            else:
+                subpaths.append((curr_layer, curr_subpath))
+                transitions.append((curr_layer, pt_layer, curr_subpath[-1], pt))
+                curr_layer = pt_layer
+                curr_subpath = [pt]
+        subpaths.append((curr_layer, curr_subpath))
+
+        total_length = 0.0
+        total_bending = 0.0
+        all_segments = []
+        all_rect_routes = []
+
+        res = self._drcmgr.resolution
+        for layer, sub_nodes in subpaths:
+            sub_pts = self._process_bend(sub_nodes)
+            sub_pts_arr = np.array(sub_pts)[:, 0:2] * res + res / 2
+            layer_radius = self.bend_radii.get(layer, radius)
+            layer_info = self.layers.get(layer, {})
+            layer_w = float(layer_info.get("waveguide_width", 0.5))
+            gds_layer = tuple(layer_info.get("gds_layer", [layer + 1, 0]))
+
+            if len(sub_pts_arr) >= 2:
+                try:
+                    P, segments, acc_bend = smooth(
+                        points=sub_pts_arr,
+                        radius=layer_radius - 1e-3,
+                        bend=gf.path.euler,
+                        use_eff=True,
+                        alignment=False,
+                    )
+                    sub_route = gf.path.extrude(P, width=layer_w, layer=gds_layer)
+                    self._net.wg_component.append(sub_route)
+                    total_length += P.length()
+                    total_bending += acc_bend
+                    all_segments.extend(segments.tolist())
+                    rect_r = self.fast_split_polygon_to_rectangles(sub_route, res)
+                    all_rect_routes.append(rect_r)
+                except Exception:
+                    pass
+
+        for from_l, to_l, p1, p2 in transitions:
+            p1_um = (p1[0] * res + res / 2, p1[1] * res + res / 2)
+            p2_um = (p2[0] * res + res / 2, p2[1] * res + res / 2)
+            coupler, c_len = self._create_adiabatic_coupler(
+                p1_um, p2_um, from_layer=from_l, to_layer=to_l
+            )
+            self._net.wg_component.append(coupler)
+            total_length += c_len
+
+        self._net.via_num = len(transitions)
+        self._net.wirelength = total_length
+        self._net.bending = total_bending
+        self._net.origin_path = origin_path
+        self._net.crossing_nets = self._crossing_nets
+        self._net.crossing_num = len(self._crossing_nets)
+        if all_rect_routes:
+            self._net.rect_route = all_rect_routes[0]
+        self._net.routed_path = [
+            [all_segments, self.start_port.gf_port, self.end_port.gf_port]
+        ]
+
+        if not self._bStrictDRC:
+            self._Dr.mark_conflict_nets(violatedNets, self._net.netName)
+            self._net.vioNets = violatedNets
+            self._net.vionets = len(violatedNets)
+        return True
+
     def hard_connection(self, currentNode, radius=5):
         path, origin_path, violatedNets = self.backTrack(currentNode)
         """To be continued
@@ -617,6 +784,13 @@ class AstarSearch:
             for node in origin_path[1:]:
                 self.vAllNodesMap[node].visited = False
             return False
+
+        # If the route navigates across multiple tiers, hand off to multi-tier builder
+        layers_present = {pt[3] if len(pt) > 3 else 0 for pt in origin_path}
+        if len(layers_present) > 1:
+            return self._hard_connection_3d(
+                currentNode, path, origin_path, violatedNets, radius
+            )
 
         Plength = len(path)
         # bend_circular has some problem...
@@ -945,8 +1119,12 @@ class AstarSearch:
             return x + y
 
     def check_connection(self, pos1, pos2):
-        x1, y1, ori1 = pos1
-        x2, y2, ori2 = pos2
+        x1, y1, ori1 = pos1[:3]
+        x2, y2, ori2 = pos2[:3]
+        z1 = pos1[3] if len(pos1) > 3 else 0
+        z2 = pos2[3] if len(pos2) > 3 else 0
+        if z1 != z2:
+            return False
         if (x1, y1) in self.access_points and abs(ori1 - ori2) == 180:
             return True
         else:
@@ -1012,59 +1190,43 @@ class AstarSearch:
                 angle = abs(path[i + 1][2] - ori)
                 if angle > 180:
                     angle = 360 - angle
+                layer = path[i][3] if len(path[i]) > 3 else 0
+                grid_rad = self.grid_radii.get(layer, self.grid_radius)
+                b45_1 = self.bend45_1_map.get(layer, self.bend45_1)
+                b45_2 = self.bend45_2_map.get(layer, self.bend45_2)
+                has_z = len(path[i]) > 3
+
+                def _pt(x, y, o):
+                    return (x, y, o, layer) if has_z else (x, y, o)
+
                 if angle == 45:
                     match ori:
                         case 0:
-                            vec.append((path[i][0] + self.bend45_1, path[i][1], ori))
+                            vec.append(_pt(path[i][0] + b45_1, path[i][1], ori))
                         case 90:
-                            vec.append((path[i][0], path[i][1] + self.bend45_1, ori))
+                            vec.append(_pt(path[i][0], path[i][1] + b45_1, ori))
                         case 180:
-                            vec.append((path[i][0] - self.bend45_1, path[i][1], ori))
+                            vec.append(_pt(path[i][0] - b45_1, path[i][1], ori))
                         case 270:
-                            vec.append((path[i][0], path[i][1] - self.bend45_1, ori))
+                            vec.append(_pt(path[i][0], path[i][1] - b45_1, ori))
                         case 45:
-                            vec.append(
-                                (
-                                    path[i][0] + self.bend45_2,
-                                    path[i][1] + self.bend45_2,
-                                    ori,
-                                )
-                            )
+                            vec.append(_pt(path[i][0] + b45_2, path[i][1] + b45_2, ori))
                         case 135:
-                            vec.append(
-                                (
-                                    path[i][0] - self.bend45_2,
-                                    path[i][1] + self.bend45_2,
-                                    ori,
-                                )
-                            )
+                            vec.append(_pt(path[i][0] - b45_2, path[i][1] + b45_2, ori))
                         case 225:
-                            vec.append(
-                                (
-                                    path[i][0] - self.bend45_2,
-                                    path[i][1] - self.bend45_2,
-                                    ori,
-                                )
-                            )
+                            vec.append(_pt(path[i][0] - b45_2, path[i][1] - b45_2, ori))
                         case 315:
-                            vec.append(
-                                (
-                                    path[i][0] + self.bend45_2,
-                                    path[i][1] - self.bend45_2,
-                                    ori,
-                                )
-                            )
-
+                            vec.append(_pt(path[i][0] + b45_2, path[i][1] - b45_2, ori))
                 else:
                     match ori:
                         case 0:
-                            vec.append((path[i][0] + self.grid_radius, path[i][1], ori))
+                            vec.append(_pt(path[i][0] + grid_rad, path[i][1], ori))
                         case 90:
-                            vec.append((path[i][0], path[i][1] + self.grid_radius, ori))
+                            vec.append(_pt(path[i][0], path[i][1] + grid_rad, ori))
                         case 180:
-                            vec.append((path[i][0] - self.grid_radius, path[i][1], ori))
+                            vec.append(_pt(path[i][0] - grid_rad, path[i][1], ori))
                         case 270:
-                            vec.append((path[i][0], path[i][1] - self.grid_radius, ori))
+                            vec.append(_pt(path[i][0], path[i][1] - grid_rad, ori))
         return vec
 
     def _mergePath(self, path: List[Tuple[int]]) -> List[Tuple[int]]:

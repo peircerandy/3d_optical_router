@@ -202,6 +202,7 @@ class Nets(BaseModel):
     wirelength: int = 0
     bending: float = 0
     crossing_num: int = 0
+    via_num: int = 0
 
     settings: Optional[Dict[str, Any]] = Field(
         None, description="Settings for the component"
