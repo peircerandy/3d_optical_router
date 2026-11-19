@@ -1153,7 +1153,7 @@ class DrcManager(object):
         return (False, None)
 
     def checkSpacing(self, neighbor, check_region, groups={}):
-        x, y, ori = neighbor.pos
+        x, y, ori = neighbor.pos[:3]
         self._bitmap
         bitMap = self._bitmap.bitMap
         count = 0

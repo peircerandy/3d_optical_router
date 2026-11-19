@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{10-30 ECE544 Weekly Report}
+\author{Gregory Stokes, Randy Peirce}
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Progress and tasks completed this week:}
+\subsection{Gregory Stokes}
+    \begin{itemize}
+        \item Setup Anaconda and initual packages on computer
+        \item Research Netlists and a bit on DRC
+        \item Failed Attempt to modify PICBench to use Yaml netlist rather than the sax notaion.
+        \item Began creating a converter form sax notation to Yaml
+    \end{itemize}
+\subsection{Randy Peirce}
+    \begin{itemize}
+        \item Setup shared Conda/pip environments and initialized the project GitHub repository
+        \item Installed and validated core photonics libraries (gdsfactory, ubcpdk, sax, and KLayout)
+        \item Created a multi-layer GDSII export smoke test and verified KLayout database parsing
+        \item Reviewed baseline photonic benchmark netlists (PICBench, LiDAR)
+    \end{itemize}
+
+\section{Plan for Next Week:}
+\subsection{Gregory Stokes}
+    \begin{itemize}
+        \item Finish Test and Verification
+        \item Finish Research on DRC
+        \item Create Script to DRC on Klayout
+        \item Test the script on various Yaml models to verify correctness.
+    \end{itemize}
+
+ \subsection{Randy Peirce}
+    \begin{itemize}
+        \item Implement 3D loss-aware cost function in Python calibrated for 1550 nm (Si vs. SiN)
+        \item Define 3D routing state space with vertical taper footprints and U-turn pruning
+        \item Implement bounding-box search corridors to ensure graph scalability
+        \item Setup 2D baseline routing harness and extract initial benchmark topology (e.g., Benes $4\times4$)
+    \end{itemize}
+
+
+\end{document}

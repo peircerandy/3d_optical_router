@@ -35,7 +35,7 @@ class GridAstarNode:
 
     def __init__(
         self,
-        pos: List = (0, 0, "ori"),
+        pos: List = (0, 0, 0, 0),   # (x, y, orientation, layer)
         cost_g: Union[float, int] = float("inf"),
         cost_f: Union[float, int] = float("inf"),
         # bend_count: Union[float, int] = float("inf"),
@@ -48,7 +48,11 @@ class GridAstarNode:
         bviolated: bool = False,
         straight_count: int = 0,
     ) -> None:
-        self._pos = tuple(pos)
+        # Support both 3-tuple (legacy 2D) and 4-tuple (3D)
+        if len(pos) == 3:
+            self._pos = (pos[0], pos[1], pos[2], 0)
+        else:
+            self._pos = tuple(pos)
         self._cost_g = cost_g
         self._cost_f = cost_f
         self._visited = visited
@@ -74,6 +78,22 @@ class GridAstarNode:
     @pos.setter
     def pos(self, value):
         self._pos = value
+
+    @property
+    def x(self) -> int:
+        return self._pos[0]
+
+    @property
+    def y(self) -> int:
+        return self._pos[1]
+
+    @property
+    def ori(self) -> int:
+        return self._pos[2]
+
+    @property
+    def layer(self) -> int:
+        return self._pos[3] if len(self._pos) > 3 else 0
 
     @property
     def costG(self):
@@ -181,12 +201,56 @@ class AstarSearch:
 
         self.vAllNodesMap = {}
 
-        self.penalty = {}
+        # ======================================================================
+        # Multi-Tier Layer Stack & Loss Ingestion
+        # ======================================================================
+        self.layers = self._config.dr.get("layers", None)
+        if self.layers is None:
+            # Fallback for single-layer / legacy 2D configs
+            self.layers = {
+                0: {
+                    "name": "Si",
+                    "loss_propagation": self._config.dr.get("loss_propagation", 1.5),
+                    "loss_bending": self._config.dr.get("loss_bending", 0.03),
+                    "bend_radius": self._config.dr.get("bend_radius", 5.0),
+                    "loss_crossing": self._config.dr.get("loss_crossing", 0.18),
+                    "allow_crossings": True,
+                }
+            }
 
-        self.penalty["propagation_loss"] = self._config.dr.loss_propagation
-        self.penalty["bending_loss"] = self._config.dr.loss_bending
-        self.penalty["crossing_loss"] = self._config.dr.loss_crossing
-        self.penalty["congestion"] = self._config.dr.loss_congestion
+        self.transitions = self._config.dr.get("transitions", {})
+
+        # Propagation loss per layer: convert dB/cm to dB/um (1 cm = 10,000 um)
+        self.propagation_losses = {
+            int(z): float(self.layers[z].get("loss_propagation", 1.5)) * 1e-4
+            for z in self.layers
+        }
+        self.alpha = self.propagation_losses  # alias for mathematical notation
+        self.bend_losses = {
+            int(z): float(self.layers[z].get("loss_bending", 0.03))
+            for z in self.layers
+        }
+        self.bend_radii = {
+            int(z): float(self.layers[z].get("bend_radius", 5.0))
+            for z in self.layers
+        }
+        self.crossing_losses = {
+            int(z): float(self.layers[z].get("loss_crossing", 0.18))
+            for z in self.layers
+        }
+
+        # Transition (3D via / adiabatic taper) parameters
+        default_trans = self.transitions.get("0-1", {})
+        self.taper_loss = float(default_trans.get("loss_taper", 0.08))
+        self.taper_length = float(default_trans.get("taper_length", 55.0))
+        self.taper_steps = max(1, round(self.taper_length / self.resolution))
+
+        self.penalty = {}
+        self.penalty["propagation_loss"] = self.propagation_losses[0] * 1e4  # back in dB/cm for legacy scaling
+        self.penalty["bending_loss"] = self.bend_losses[0]
+        self.penalty["crossing_loss"] = self.crossing_losses[0]
+        self.penalty["congestion"] = float(self._config.dr.get("loss_congestion", 1.0))
+        self.penalty["history"] = float(self._config.dr.get("historyCost", 2.0))
 
         resolution = self._config.dr.grid_resolution
         if net_config:
@@ -239,173 +303,134 @@ class AstarSearch:
         if net_config and not net_config["customH"]:
             self.costH = self.scaledMDist
         elif config.dr.enable_45_neighbor:
-            # self.costH = self.customH
             self.costH = lambda x, y, bending_loss=self.penalty[
                 "bending_loss"
             ], res=self.resolution: customH(x, y, bending_loss, resolution=res)
         else:
             self.costH = self.scaledMDist
 
-        self.stepG = {
-            "straight_0": self.resolution * self.penalty["propagation_loss"],
-            "straight_45": np.sqrt(2)
-            * self.resolution
-            * self.penalty["propagation_loss"],
-        }
-
+        # Initialize multi-tier state machine (precomputing nextSteps and stepG per layer)
+        self.nextSteps = {}
+        self.stepG = {}
         self.init_state_machine()
 
-    def init_state_machine(self):
-        reslution = self._config.dr.grid_resolution
-        radius = self._config.dr.bend_radius
-        self.radius = radius
-        self.grid_radius = math.ceil(radius / reslution)
+    def _build_state_machine_for_layer(
+        self, layer_id: int, radius: float, alpha: float, loss_bending: float
+    ):
+        resolution = self.resolution
+        grid_radius = math.ceil(radius / resolution)
+        bend45_1 = math.ceil(radius * 0.415 / resolution)
+        bend45_2 = math.ceil(radius * 0.3 / resolution)
 
-        bend45_1 = math.ceil(radius * 0.415 / reslution)
-        bend45_2 = math.ceil(radius * 0.3 / reslution)
-        self.bend45_1 = bend45_1
-        self.bend45_2 = bend45_2
-        predict_length = round(self._net.half_size / reslution)
-        self.set_DrcManager(self.grid_radius, bend45_1, bend45_2, predict_length)
-
-        self.nextSteps = {
+        nextSteps = {
             0: [
-                (self.grid_radius, -self.grid_radius, 270, "bend_90"),
+                (grid_radius, -grid_radius, 270, "bend_90"),
                 (1, 0, 0, "straight_0"),
-                (self.grid_radius, self.grid_radius, 90, "bend_90"),
+                (grid_radius, grid_radius, 90, "bend_90"),
             ],
             90: [
-                (self.grid_radius, self.grid_radius, 0, "bend_90"),
+                (grid_radius, grid_radius, 0, "bend_90"),
                 (0, 1, 90, "straight_0"),
-                (-self.grid_radius, self.grid_radius, 180, "bend_90"),
+                (-grid_radius, grid_radius, 180, "bend_90"),
             ],
             180: [
-                (-self.grid_radius, self.grid_radius, 90, "bend_90"),
+                (-grid_radius, grid_radius, 90, "bend_90"),
                 (-1, 0, 180, "straight_0"),
-                (-self.grid_radius, -self.grid_radius, 270, "bend_90"),
+                (-grid_radius, -grid_radius, 270, "bend_90"),
             ],
             270: [
-                (-self.grid_radius, -self.grid_radius, 180, "bend_90"),
+                (-grid_radius, -grid_radius, 180, "bend_90"),
                 (0, -1, 270, "straight_0"),
-                (self.grid_radius, -self.grid_radius, 0, "bend_90"),
+                (grid_radius, -grid_radius, 0, "bend_90"),
             ],
             45: [
                 (bend45_1 + bend45_2, bend45_2, 0, "bend_45_2"),
                 (1, 1, 45, "straight_45"),
                 (bend45_2, bend45_1 + bend45_2, 90, "bend_45_2"),
             ],
-            #  (2*extra_length + bend_90_grids, -bend_90_grids, 315),
-            #  (-bend_90_grids,2*extra_length+bend_90_grids, 135)],
             135: [
                 (-bend45_2, bend45_2 + bend45_1, 90, "bend_45_2"),
                 (-1, 1, 135, "straight_45"),
                 (-bend45_2 - bend45_1, bend45_2, 180, "bend_45_2"),
             ],
-            #   (bend_90_grids, 2*extra_length+bend_90_grids, 45),
-            #   (-2*extra_length-bend_90_grids, -bend_90_grids, 225)],
             225: [
                 (-bend45_2 - bend45_1, -bend45_2, 180, "bend_45_2"),
                 (-1, -1, 225, "straight_45"),
                 (-bend45_2, -bend45_2 - bend45_1, 270, "bend_45_2"),
             ],
-            #   (-2*extra_length-bend_90_grids, bend_90_grids, 135),
-            #   (bend_90_grids, -2*extra_length-bend_90_grids, 315)],
             315: [
                 (bend45_2, -bend45_2 - bend45_1, 270, "bend_45_2"),
                 (1, -1, 315, "straight_45"),
                 (bend45_2 + bend45_1, -bend45_2, 0, "bend_45_2"),
             ],
-            #   (2*extra_length+bend_90_grids, bend_90_grids, 45),
-            #   (bend_90_grids, -2*extra_length-bend_90_grids, 225)],
         }
 
         if self._net.enable_45 and self._config.dr.enable_45_neighbor:
-            self.nextSteps[0].append((bend45_2 + bend45_1, -bend45_2, 315, "bend_45_1"))
-            self.nextSteps[0].append((bend45_2 + bend45_1, bend45_2, 45, "bend_45_1"))
-            self.nextSteps[90].append(
-                (-bend45_2, bend45_2 + bend45_1, 135, "bend_45_1")
-            )
-            self.nextSteps[90].append((bend45_2, bend45_2 + bend45_1, 45, "bend_45_1"))
-            self.nextSteps[180].append(
-                (-bend45_2 - bend45_1, bend45_2, 135, "bend_45_1")
-            )
-            self.nextSteps[180].append(
-                (-bend45_2 - bend45_1, -bend45_2, 225, "bend_45_1")
-            )
-            self.nextSteps[270].append(
-                (-bend45_2, -bend45_2 - bend45_1, 225, "bend_45_1")
-            )
-            self.nextSteps[270].append(
-                (bend45_2, -bend45_2 - bend45_1, 315, "bend_45_1")
-            )
+            nextSteps[0].append((bend45_2 + bend45_1, -bend45_2, 315, "bend_45_1"))
+            nextSteps[0].append((bend45_2 + bend45_1, bend45_2, 45, "bend_45_1"))
+            nextSteps[90].append((-bend45_2, bend45_2 + bend45_1, 135, "bend_45_1"))
+            nextSteps[90].append((bend45_2, bend45_2 + bend45_1, 45, "bend_45_1"))
+            nextSteps[180].append((-bend45_2 - bend45_1, bend45_2, 135, "bend_45_1"))
+            nextSteps[180].append((-bend45_2 - bend45_1, -bend45_2, 225, "bend_45_1"))
+            nextSteps[270].append((-bend45_2, -bend45_2 - bend45_1, 225, "bend_45_1"))
+            nextSteps[270].append((bend45_2, -bend45_2 - bend45_1, 315, "bend_45_1"))
 
+        # Precompute step costs (stepG) in physical decibels
+        stepG = {
+            "straight_0": resolution * alpha,
+            "straight_45": np.sqrt(2) * resolution * alpha,
+        }
+
+        # 45-degree bend
+        points45 = np.array(
+            [
+                (0, 0),
+                (bend45_1 * resolution, 0),
+                ((bend45_1 + bend45_2) * resolution, bend45_2 * resolution),
+            ]
+        )
+        P45, _, _ = smooth(points=points45, radius=radius - 1e-3, bend=gf.path.arc)
+        stepG["bend_45_1"] = P45.length() * alpha + loss_bending / 2
+        stepG["bend_45_2"] = stepG["bend_45_1"]
+
+        # 90-degree bend
+        points90 = np.array(
+            [
+                (0, 0),
+                (grid_radius * resolution, 0),
+                (grid_radius * resolution, grid_radius * resolution),
+            ]
+        )
+        P90, _, _ = smooth(points=points90, radius=radius - 1e-3, bend=gf.path.arc)
+        stepG["bend_90"] = P90.length() * alpha + loss_bending
+
+        return nextSteps, stepG, grid_radius, bend45_1, bend45_2
+
+    def init_state_machine(self):
+        resolution = self.resolution
+        self.radius = self.bend_radii.get(0, self._config.dr.bend_radius)
+        self.grid_radius = math.ceil(self.radius / resolution)
+
+        self.nextSteps = {}
+        self.stepG = {}
+        for z in self.layers:
+            z_int = int(z)
+            r = self.bend_radii[z_int]
+            a = self.alpha[z_int]
+            b_loss = self.bend_losses[z_int]
+            nSteps, sG, g_rad, b45_1, b45_2 = self._build_state_machine_for_layer(
+                z_int, r, a, b_loss
+            )
+            self.nextSteps[z_int] = nSteps
+            self.stepG[z_int] = sG
+            if z_int == 0:
+                self.bend45_1 = b45_1
+                self.bend45_2 = b45_2
+                self.grid_radius = g_rad
+
+        predict_length = round(self._net.half_size / resolution)
+        self.set_DrcManager(self.grid_radius, self.bend45_1, self.bend45_2, predict_length)
         self.his_index = {0: 0, 45: 1, 90: 2, 135: 3, 180: 4, 225: 5, 270: 6, 315: 7}
-
-        """ disable rightnow
-        self.offset_neighbors = {
-            0: [
-                (minimum_straight+1, 1, 0, "offset_1"),
-                (minimum_straight+1, -1, 0, "offset_1"),
-                (minimum_straight+2, 2, 0, "offset_2"),
-                (minimum_straight+2, -2, 0, "offset_2")
-            ],
-            180: [
-                (-minimum_straight-1, 1, 180, "offset_1"),
-                (-minimum_straight-1, -1, 180, "offset_1"),
-                (-minimum_straight-2, 2, 180, "offset_2"),
-                (-minimum_straight-2, -2, 180, "offset_2")
-            ],
-            90: [
-                (1, minimum_straight+1, 90, "offset_1"),
-                (-1, minimum_straight+1, 90, "offset_1"),
-                (2, minimum_straight+2, 90, "offset_2"),
-                (-2, minimum_straight+2, 90, "offset_2")
-            ],
-            270: [
-                (1, -minimum_straight-1, 270, "offset_1"),
-                (-1, -minimum_straight-1, 270, "offset_1"),
-                (2, -minimum_straight-2, 270, "offset_2"),
-                (-2, -minimum_straight-2, 270, "offset_2")
-            ]
-        }"""
-
-        points = np.array(
-            [
-                (0, 0),
-                (bend45_1 * reslution, 0),
-                ((bend45_1 + bend45_2) * reslution, bend45_2 * reslution),
-            ]
-        )
-        P, _, _ = smooth(
-            points=points,
-            radius=radius - 1e-3,
-            bend=gf.path.arc,  # gf.path.euler / gf.path.arc
-            # use_eff=True
-        )
-        length_45_1 = P.length()
-        self.stepG["bend_45_1"] = (
-            length_45_1 * self.penalty["propagation_loss"]
-            + self.penalty["bending_loss"] / 2
-        )
-
-        self.stepG["bend_45_2"] = self.stepG["bend_45_1"]
-
-        points = np.array(
-            [
-                (0, 0),
-                (self.grid_radius * reslution, 0),
-                (self.grid_radius * reslution, self.grid_radius * reslution),
-            ]
-        )
-        P, _, _ = smooth(
-            points=points,
-            radius=radius - 1e-3,
-            bend=gf.path.arc,  # gf.path.euler / gf.path.arc
-            # use_eff=True
-        )
-        self.stepG["bend_90"] = (
-            P.length() * self.penalty["propagation_loss"] + self.penalty["bending_loss"]
-        )
 
         """
         offset neighbor 1
@@ -725,11 +750,15 @@ class AstarSearch:
                 if neighbor.visited:
                     continue
                 costF = 0
-                if nb_type in {"crossing_0", "crossing_45"}:
+                layer = current_node.layer
+                if nb_type == "via_3d":
+                    costG = current_node.costG + self.taper_loss
+                elif nb_type in {"crossing_0", "crossing_45"}:
                     costG = current_node.costG
-                    costG += self.penalty["crossing_loss"]
+                    costG += self.crossing_losses.get(layer, self.penalty["crossing_loss"])
                 else:
-                    costG = current_node.costG + self.stepG[nb_type]
+                    stepG_layer = self.stepG.get(layer, self.stepG[0])
+                    costG = current_node.costG + stepG_layer[nb_type]
 
                 if neighbor._bviolated:
                     cv = current_node._violatedNet
@@ -742,7 +771,7 @@ class AstarSearch:
                         else:
                             costG += netnum * 10 * self.penalty["crossing_loss"]
 
-                x, y, ori = neighbor.pos
+                x, y, ori = neighbor.pos[:3]
 
                 if self.groups:
                     dis = EulerDist(neighbor.pos, self.endNode.pos) * self.resolution
@@ -776,7 +805,7 @@ class AstarSearch:
                                 costG += count * congestion_penalty
 
                 if self.bNeedUpdate(neighbor, costG):
-                    costF += costG + self.penalty["propagation_loss"] * self.costH(
+                    costF += costG + self.propagation_losses.get(neighbor.layer, self.propagation_losses[0]) * self.costH(
                         neighbor.pos, self.endNode.pos
                     )
 
@@ -798,13 +827,14 @@ class AstarSearch:
         return False
 
     def findNeighbors(self, currentNode: GridAstarNode):
-        currentX, currentY, orientation = currentNode.pos
-        nextStep = self.nextSteps[orientation]
+        currentX, currentY, orientation = currentNode.pos[:3]
+        layer = currentNode.layer
+        nextStep = self.nextSteps.get(layer, self.nextSteps[0])[orientation]
         end_node = self.endNode.pos
         th = self.connect_th
         for step in nextStep:
             enable_prediction = True
-            neighbor_position = (currentX + step[0], currentY + step[1], step[2])
+            neighbor_position = (currentX + step[0], currentY + step[1], step[2], layer)
             dis = manhattanDH(currentNode.pos, end_node)
             if dis <= th:
                 enable_prediction = False
@@ -838,10 +868,11 @@ class AstarSearch:
                 currentNode.addNeighbors(tmp_neighbor, step[3])
 
             elif ans_1 is not None:  # crossing neighbor
-                tmp_neighbor = vAllNodesMap.get(ans_1, None)
+                cross_pos = (*ans_1[:3], layer)
+                tmp_neighbor = vAllNodesMap.get(cross_pos, None)
                 if tmp_neighbor is None:
-                    tmp_neighbor = vAllNodesMap[ans_1] = GridAstarNode(
-                        pos=ans_1,
+                    tmp_neighbor = vAllNodesMap[cross_pos] = GridAstarNode(
+                        pos=cross_pos,
                         parent=None,
                         neighbors={},
                         crossing_budget=currentNode._crossing_budget - 1,
@@ -861,6 +892,49 @@ class AstarSearch:
                         violatedNet=ans[3],
                     )
                 currentNode.addNeighbors(tmp_neighbor, step[3])
+
+        # Inter-tier vertical via candidate (3D transition)
+        if len(self.layers) > 1:
+            for target_layer in self.layers:
+                target_z = int(target_layer)
+                if target_z != layer:
+                    dx, dy = 0, 0
+                    if orientation == 0:
+                        dx = self.taper_steps
+                    elif orientation == 90:
+                        dy = self.taper_steps
+                    elif orientation == 180:
+                        dx = -self.taper_steps
+                    elif orientation == 270:
+                        dy = -self.taper_steps
+                    elif orientation == 45:
+                        dx = dy = max(1, round(self.taper_steps / 1.414))
+                    elif orientation == 135:
+                        dx = -max(1, round(self.taper_steps / 1.414))
+                        dy = max(1, round(self.taper_steps / 1.414))
+                    elif orientation == 225:
+                        dx = dy = -max(1, round(self.taper_steps / 1.414))
+                    elif orientation == 315:
+                        dx = max(1, round(self.taper_steps / 1.414))
+                        dy = -max(1, round(self.taper_steps / 1.414))
+
+                    via_pos = (currentX + dx, currentY + dy, orientation, target_z)
+                    routing_bound = self.routing_bound
+                    if (
+                        via_pos[0] > routing_bound[0][0]
+                        and via_pos[0] < routing_bound[1][0]
+                        and via_pos[1] > routing_bound[0][1]
+                        and via_pos[1] < routing_bound[1][1]
+                    ):
+                        tmp_via = self.vAllNodesMap.get(via_pos, None)
+                        if tmp_via is None:
+                            tmp_via = self.vAllNodesMap[via_pos] = GridAstarNode(
+                                pos=via_pos,
+                                parent=None,
+                                neighbors={},
+                                crossing_budget=currentNode._crossing_budget,
+                            )
+                        currentNode.addNeighbors(tmp_via, "via_3d")
 
     def scaledMDist(self, pos1, pos2):
         x = abs(pos1[0] - pos2[0]) * self.resolution

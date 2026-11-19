@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+
+\title{11-13 ECE544 Weekly Report}
+\author{Gregory Stokes, Randy Peirce}
+\date{November 13, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Progress and tasks completed this week:}
+\subsection{Gregory Stokes}
+    \begin{itemize}
+        \item Researched  3D Waveguides and planned on DRC
+      \item Create and run Doxygen file to make code easier to navigate
+      \item Studied and modified code to have a 3D bitmap
+    \end{itemize}
+\subsection{Randy Peirce}
+    \begin{itemize}
+        \item Set up standalone \texttt{router3d} package and root execution pipeline (copying much code from the Lidar repo to modify it)
+        \item Configured multi-layer YAML schema config for layer stacks and via footprints
+        \item Studied A* search implementation to prepare for 3D state transitions
+    \end{itemize}
+
+\section{Plan for Next Week:}
+\subsection{Gregory Stokes}
+    \begin{itemize}
+        \item Finish 3D Bitmap
+        \item Model 3D via Keep-outs
+    \end{itemize}
+
+\subsection{Randy Peirce}
+    \begin{itemize}
+        \item Implement 3D state $(x, y, \theta, z)$ in A* search
+        \item Add vertical via transitions and layer-dependent costs
+        \item Test initial 3D pathfinding on Benes $4\times4$ to verify crossing reduction
+    \end{itemize}
+
+
+\end{document}

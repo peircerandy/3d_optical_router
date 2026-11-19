@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+
+\title{11-6 ECE544 Weekly Report}
+\author{Gregory Stokes, Randy Peirce}
+\date{November 6, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Progress and tasks completed this week:}
+\subsection{Gregory Stokes}
+    \begin{itemize}
+        \item Attempted to convert sax netlists to GDS files
+        \item Learned how to run LiDAR in the system
+    \end{itemize}
+\subsection{Randy Peirce}
+    \begin{itemize}
+        \item Established 2D baseline routing harness for Benes $4\times4$ switch matrix in gdsfactory
+        \item Resolved component placement overlap using structured stage/pitch spacing ($400\,\mu\text{m} \times 250\,\mu\text{m}$)
+        \item Configured dedicated environment and successfully ran native LiDAR 2D router on benchmark circuits
+        \item Analyzed 2D layout in KLayout to identify waveguide crossing bottlenecks requiring 3D layer transitions
+    \end{itemize}
+
+\section{Plan for Next Week:}
+\subsection{Gregory Stokes}
+    \begin{itemize}
+        \item Create a new virtual environment and run LiDAR on the system
+        \item Understand how the code does DRC
+        \item Understand the difference between DRC 2D vs 3D
+        \item Create a DRC for a 3D system
+    \end{itemize}
+
+\subsection{Randy Peirce}
+    \begin{itemize}
+        \item Implement 3D loss-aware cost function in Python ($1550\,\text{nm}$ calibration for Si vs. SiN)
+        \item Define 3D routing state space with vertical taper footprint and keep-out constraints
+        \item Implement bounding-box search corridors and U-turn pruning heuristics to ensure scalability
+        \item Run initial 3D single-net pathfinding on the Benes $4\times4$ crossover nets to demonstrate crossing elimination
+    \end{itemize}
+
+\end{document}

@@ -24,6 +24,7 @@ htmlcov/
 # EDA Outputs (large binaries)
 output/*.gds
 !output/preliminary_3d_test.gds
+build/
 
 # Logs
 *.log
