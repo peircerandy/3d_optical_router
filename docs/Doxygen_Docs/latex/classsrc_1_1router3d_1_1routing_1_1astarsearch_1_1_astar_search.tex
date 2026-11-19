@@ -1,0 +1,230 @@
+\doxysection{src.\+router3d.\+routing.\+astarsearch.\+Astar\+Search Class Reference}
+\hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search}{}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search}\index{src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a686e77c59dba4e75ed304784ca36c043}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a686e77c59dba4e75ed304784ca36c043} 
+{\bfseries \+\_\+\+\_\+init\+\_\+\_} (self, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1drgridroute_1_1_dr_grid_route}{Dr\+Grid\+Route}} Dr, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_custom_schematic}{Custom\+Schematic}} Cir\+DB, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets}{Nets}} Current\+Net, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1drc_1_1drcmanager_1_1_drc_manager}{Drc\+Manager}} Drc, dict config=None, dict net\+\_\+config=None, bool b\+Strict\+DRC=True, dict groups=None)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae9fc805c40fad5fdbf9fd82cb6313a0a}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae9fc805c40fad5fdbf9fd82cb6313a0a} 
+{\bfseries init\+\_\+state\+\_\+machine} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a8e7ed8154a472d9be949544e65fa20f5}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a8e7ed8154a472d9be949544e65fa20f5} 
+{\bfseries set\+\_\+\+Drc\+Manager} (self, bend90, bend45\+\_\+1, bend45\+\_\+2, predict\+\_\+length)
+\item 
+\doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aad6aa252b40ed5eca57b990f7cba7c49}{find\+Acs\+Pts}} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ac4e2bbdda22159866bac6cb835eadf87}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ac4e2bbdda22159866bac6cb835eadf87} 
+{\bfseries connection\+\_\+check} (self, port1, port2)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aac595a5854db6c4d2857fcf5fc66f6d4}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aac595a5854db6c4d2857fcf5fc66f6d4} 
+{\bfseries hard\+\_\+connection} (self, current\+Node, radius=5)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a5ef8bffbaffc9d86ac79be218e6f3093}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a5ef8bffbaffc9d86ac79be218e6f3093} 
+{\bfseries sets\+\_\+union} (self, sets1, sets2)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a1e9239f4543f8268f9367c44641ccd1a}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a1e9239f4543f8268f9367c44641ccd1a} 
+{\bfseries route} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a7a4cfcc42f4ba0ce7fbb69dad7319c35}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a7a4cfcc42f4ba0ce7fbb69dad7319c35} 
+{\bfseries find\+Neighbors} (self, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_grid_astar_node}{Grid\+Astar\+Node}} current\+Node)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a87f66455ad6c61fb9e89e20406751f77}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a87f66455ad6c61fb9e89e20406751f77} 
+{\bfseries scaled\+MDist} (self, pos1, pos2)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_af7cc9c2f73815efa3394e0d88d8a3952}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_af7cc9c2f73815efa3394e0d88d8a3952} 
+{\bfseries check\+\_\+connection} (self, pos1, pos2)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a99a3c850d633e5f927ff120835400aa0}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a99a3c850d633e5f927ff120835400aa0} 
+{\bfseries back\+Track} (self, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_grid_astar_node}{Grid\+Astar\+Node}} node)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ab1a6ab6564bd55188ddc5759b85ba55a}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ab1a6ab6564bd55188ddc5759b85ba55a} 
+{\bfseries has\+Bend} (self, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_grid_astar_node}{Grid\+Astar\+Node}} current\+Node, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_grid_astar_node}{Grid\+Astar\+Node}} neighbor)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ac257b70d9155c758d20b31665dd8d8ce}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ac257b70d9155c758d20b31665dd8d8ce} 
+{\bfseries b\+Need\+Update} (self, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_grid_astar_node}{Grid\+Astar\+Node}} neighbor, costG)
+\item 
+\doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a3c5982c19d49e32cc35a1cf050c76a86}{fast\+\_\+split\+\_\+polygon\+\_\+to\+\_\+rectangles}} (self, gf.\+Component component, resolution=1)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ab6e8194737cc6717bb25412199ed6eb2}{connect\+\_\+th}}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a7bdf98cdd673b3b3c59195fc841d8d69}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a7bdf98cdd673b3b3c59195fc841d8d69} 
+int {\bfseries resolution} = config.\+dr.\+grid\+\_\+resolution
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ad4b380cfdb3e99bd4cfdb576753fc5d4}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ad4b380cfdb3e99bd4cfdb576753fc5d4} 
+bool {\bfseries repel} = False
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a41ceca850dbf7b7882fb9fdf6609910b}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a41ceca850dbf7b7882fb9fdf6609910b} 
+{\bfseries groups} = groups
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a99d0b910ddbfb20dbca24a97ab27eee4}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a99d0b910ddbfb20dbca24a97ab27eee4} 
+{\bfseries unrouted} = max(2, min(10, Dr.\+unrouted))
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aade4d7a12d34b42c8f7f8146e2a8f8a1}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aade4d7a12d34b42c8f7f8146e2a8f8a1} 
+{\bfseries check\+\_\+region} = self.\+unrouted \texorpdfstring{$\ast$}{*} config.\+dr.\+grid\+\_\+resolution
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ad9be4b120c3dd72d646f7c3a407b31de}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ad9be4b120c3dd72d646f7c3a407b31de} 
+dict {\bfseries v\+All\+Nodes\+Map} = \{\}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a22cef1d52270c3a7cc67774e13a00633}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a22cef1d52270c3a7cc67774e13a00633} 
+dict {\bfseries penalty} = \{\}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_abc1ad7f59acaa3d20ba7910d0aa09fae}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_abc1ad7f59acaa3d20ba7910d0aa09fae} 
+list {\bfseries routing\+\_\+bound} = np.\+array(net\+\_\+config\+["{}region"{}]\+) /\+ resolution
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_af89a7654839262cff8e9986e0cbf50ba}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_af89a7654839262cff8e9986e0cbf50ba} 
+{\bfseries crossing\+\_\+budget} = Current\+Net.\+crossing\+\_\+budget
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a10c4246b7b9caed7e041c3073b6d665d}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a10c4246b7b9caed7e041c3073b6d665d} 
+{\bfseries nodepq} = \doxymbox{\hyperlink{classsrc_1_1router3d_1_1queue_1_1heapdict_1_1heapdict}{heapdict}}()
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aee2aca971022e253f2ca712ea11289be}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aee2aca971022e253f2ca712ea11289be} 
+dict {\bfseries costH} = self.\+scaled\+MDist
+\item 
+dict \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aed74e28aaaca5d893b01a277e2482b67}{stepG}}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a279e9ab1b31ca02aa4bbd6c4689808dd}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a279e9ab1b31ca02aa4bbd6c4689808dd} 
+{\bfseries radius} = radius
+\begin{DoxyCompactList}\small\item\em lack 45 / 135 case \end{DoxyCompactList}\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a78ec2b27d1a404bbb058f2787b793184}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a78ec2b27d1a404bbb058f2787b793184} 
+{\bfseries grid\+\_\+radius} = math.\+ceil(\doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a279e9ab1b31ca02aa4bbd6c4689808dd}{radius}} /\+ reslution)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ad6ea63d5f8cc098b58cc250e0d43e31b}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ad6ea63d5f8cc098b58cc250e0d43e31b} 
+{\bfseries bend45\+\_\+1} = bend45\+\_\+1
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a32aa1abfe02ca9b7a1eb6e2b0061d3f6}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a32aa1abfe02ca9b7a1eb6e2b0061d3f6} 
+{\bfseries bend45\+\_\+2} = bend45\+\_\+2
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a58118091e1e945cd645c70260af0ffae}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a58118091e1e945cd645c70260af0ffae} 
+dict {\bfseries next\+Steps}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a3a951515732e84448869e61613e2ad05}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a3a951515732e84448869e61613e2ad05} 
+dict {\bfseries his\+\_\+index} = \{0:\+ 0, 45:\+ 1, 90:\+ 2, 135:\+ 3, 180:\+ 4, 225:\+ 5, 270:\+ 6, 315:\+ 7\}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_afd8bd7d6d39698af777df28e5241476d}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_afd8bd7d6d39698af777df28e5241476d} 
+{\bfseries start\+\_\+port} = self.\+\_\+net.\+Net\+Port2
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ab2779a942e258193da63d210c57edc28}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ab2779a942e258193da63d210c57edc28} 
+{\bfseries end\+\_\+port} = self.\+\_\+net.\+Net\+Port1
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae522a734009dd6211454891886494053}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae522a734009dd6211454891886494053} 
+{\bfseries access\+\_\+points} = set(self.\+end\+\_\+port.\+port\+\_\+grids)
+\item 
+\doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a99868f9d8e8e230c08d51483642e6c53}{end\+Node}}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a5dc233640d4b107371ca4acbd4c28623}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a5dc233640d4b107371ca4acbd4c28623} 
+list {\bfseries start\+Node} = \+[$\,$]
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a2672923e53ab5e266d7eecc387fe0d13}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a2672923e53ab5e266d7eecc387fe0d13} 
+{\bfseries \+\_\+process\+\_\+bend} (self, path)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_adc87f74b8466ec1f2319bc657a293d89}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_adc87f74b8466ec1f2319bc657a293d89} 
+List\+[Tuple\+[int]\+] {\bfseries \+\_\+merge\+Path} (self, List\+[Tuple\+[int]\+]\+ path)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aac09548278d5f669ce7d06e3bc900a6b}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aac09548278d5f669ce7d06e3bc900a6b} 
+{\bfseries \+\_\+find\+Direction} (self, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_grid_astar_node}{Grid\+Astar\+Node}} current\+Node, \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_grid_astar_node}{Grid\+Astar\+Node}} neighbor)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a243ec7f575a97165a555bf4f1442d23f}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a243ec7f575a97165a555bf4f1442d23f} 
+{\bfseries \+\_\+\+Dr} = Dr
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae804bb52dd1db9bbf0b801c6298471c4}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae804bb52dd1db9bbf0b801c6298471c4} 
+{\bfseries \+\_\+cirdb} = Cir\+DB
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ada68bd212bdb6c58ae726a12074063be}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ada68bd212bdb6c58ae726a12074063be} 
+{\bfseries \+\_\+net} = Current\+Net
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a27c9ac982f826b4a26d9c748c4e61334}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a27c9ac982f826b4a26d9c748c4e61334} 
+{\bfseries \+\_\+drcmgr} = Drc
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae723ed7db33cc21fc5e4e14320dd1189}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ae723ed7db33cc21fc5e4e14320dd1189} 
+{\bfseries \+\_\+config} = config
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a4e063c8e1c021f4663b98f76c47b1ce3}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a4e063c8e1c021f4663b98f76c47b1ce3} 
+{\bfseries \+\_\+net\+\_\+config} = net\+\_\+config
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_acdd5a4223a422d350f58604e55380f93}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_acdd5a4223a422d350f58604e55380f93} 
+{\bfseries \+\_\+b\+Strict\+DRC} = b\+Strict\+DRC
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aeec1cb6386e98235f8a662b9964a80f2}\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aeec1cb6386e98235f8a662b9964a80f2} 
+{\bfseries \+\_\+crossing\+\_\+nets} = set()
+\end{DoxyCompactItemize}
+
+
+\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_doc-func-members}
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a3c5982c19d49e32cc35a1cf050c76a86}\index{src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}!fast\_split\_polygon\_to\_rectangles@{fast\_split\_polygon\_to\_rectangles}}
+\index{fast\_split\_polygon\_to\_rectangles@{fast\_split\_polygon\_to\_rectangles}!src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}}
+\doxysubsubsection{\texorpdfstring{fast\_split\_polygon\_to\_rectangles()}{fast\_split\_polygon\_to\_rectangles()}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a3c5982c19d49e32cc35a1cf050c76a86} 
+src.\+router3d.\+routing.\+astarsearch.\+Astar\+Search.\+fast\+\_\+split\+\_\+polygon\+\_\+to\+\_\+rectangles (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{gf.\+Component}]{component}{, }\item[{}]{resolution}{ = {\ttfamily 1}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}using the GDSFactory polygons\end{DoxyVerb}
+ \Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aad6aa252b40ed5eca57b990f7cba7c49}\index{src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}!findAcsPts@{findAcsPts}}
+\index{findAcsPts@{findAcsPts}!src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}}
+\doxysubsubsection{\texorpdfstring{findAcsPts()}{findAcsPts()}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aad6aa252b40ed5eca57b990f7cba7c49} 
+src.\+router3d.\+routing.\+astarsearch.\+Astar\+Search.\+find\+Acs\+Pts (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}To do: only support positive index now\end{DoxyVerb}
+ 
+
+\label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_doc-variable-members}
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ab6e8194737cc6717bb25412199ed6eb2}\index{src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}!connect\_th@{connect\_th}}
+\index{connect\_th@{connect\_th}!src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}}
+\doxysubsubsection{\texorpdfstring{connect\_th}{connect\_th}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_ab6e8194737cc6717bb25412199ed6eb2} 
+src.\+router3d.\+routing.\+astarsearch.\+Astar\+Search.\+connect\+\_\+th}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ math.ceil(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ config.dr.bend\_radius\ *\ 2\ /\ config.dr.grid\_resolution}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ )}
+
+\end{DoxyCode}
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a99868f9d8e8e230c08d51483642e6c53}\index{src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}!endNode@{endNode}}
+\index{endNode@{endNode}!src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}}
+\doxysubsubsection{\texorpdfstring{endNode}{endNode}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_a99868f9d8e8e230c08d51483642e6c53} 
+src.\+router3d.\+routing.\+astarsearch.\+Astar\+Search.\+end\+Node}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ GridAstarNode(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ pos=(endPos[0],\ endPos[1],\ self.end\_port.orientation),\ crossing\_budget=0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ )}
+
+\end{DoxyCode}
+\Hypertarget{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aed74e28aaaca5d893b01a277e2482b67}\index{src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}!stepG@{stepG}}
+\index{stepG@{stepG}!src.router3d.routing.astarsearch.AstarSearch@{src.router3d.routing.astarsearch.AstarSearch}}
+\doxysubsubsection{\texorpdfstring{stepG}{stepG}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1routing_1_1astarsearch_1_1_astar_search_aed74e28aaaca5d893b01a277e2482b67} 
+dict src.\+router3d.\+routing.\+astarsearch.\+Astar\+Search.\+stepG}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}straight\_0"{}}:\ self.resolution\ *\ self.penalty[\textcolor{stringliteral}{"{}propagation\_loss"{}}],}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}straight\_45"{}}:\ np.sqrt(2)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ *\ self.resolution}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ *\ self.penalty[\textcolor{stringliteral}{"{}propagation\_loss"{}}],}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+src/\+router3d/\+routing/astarsearch.\+py\end{DoxyCompactItemize}

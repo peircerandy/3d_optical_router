@@ -1,0 +1,61 @@
+\doxysection{src.\+router3d.\+drc.\+bitmap.\+bitmap\+Node Class Reference}
+\hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node}{}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node}\index{src.router3d.drc.bitmap.bitmapNode@{src.router3d.drc.bitmap.bitmapNode}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_ad0fc15f4fe5b63775266efdff094b90f}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_ad0fc15f4fe5b63775266efdff094b90f} 
+{\bfseries \+\_\+\+\_\+init\+\_\+\_} (self, str nodetype="{}empty"{})
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a4d52a3b539877c928a88112c6109cea8}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a4d52a3b539877c928a88112c6109cea8} 
+{\bfseries net\+ID} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a3664084d95ccc7610b5a10ffb5ef1d45}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a3664084d95ccc7610b5a10ffb5ef1d45} 
+{\bfseries update} (self, nodetype, id=0, wgtype=None)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a486d09de7bfc3d9c669b94e16c1c61fd}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a486d09de7bfc3d9c669b94e16c1c61fd} 
+{\bfseries delete} (self, net\+Name)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a4c13ed12c61d87747fcf2dcef8251168}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a4c13ed12c61d87747fcf2dcef8251168} 
+{\bfseries type} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a22c0aeb94b8e7c467e4d079bbfb698e7}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a22c0aeb94b8e7c467e4d079bbfb698e7} 
+str {\bfseries \+\_\+\+\_\+str\+\_\+\_} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_aa77962d0795293dcccb0696d531b1895}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_aa77962d0795293dcccb0696d531b1895} 
+str {\bfseries nodetype} = nodetype
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_aefe697b23f30eb688d0a313187a0c8e0}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_aefe697b23f30eb688d0a313187a0c8e0} 
+{\bfseries blk\+ID} = None
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a4cd899366e8e6c43281efb86ab8c0a72}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a4cd899366e8e6c43281efb86ab8c0a72} 
+int {\bfseries length} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_afd4c2d1489e690100eacf03c7f80a2e0}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_afd4c2d1489e690100eacf03c7f80a2e0} 
+str {\bfseries type} = "{}port"{}:
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a00d8341ca22618a45a88ec7a4835a0e6}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a00d8341ca22618a45a88ec7a4835a0e6} 
+list {\bfseries \+\_\+net\+ID} = \+[$\,$]
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a498e87470ceba5483aed0d7d880defa4}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1bitmap_node_a498e87470ceba5483aed0d7d880defa4} 
+dict {\bfseries \+\_\+wgtype} = \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Support empty, blockage, waveguide, compound(multiple waveguide in one grid) and port type now.
+blkID: record the blockage instance ID when type is blk or the netID when type is port type.
+self.netID: a list that record the nets the grid containing
+self._wgtype: a list that record the wgtype the grid containing
+self.length: length of self.netID
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+src/\+router3d/\+drc/bitmap.\+py\end{DoxyCompactItemize}

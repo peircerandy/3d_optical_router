@@ -1,0 +1,71 @@
+\doxysection{src.\+router3d.\+utils.\+general.\+Custom\+Formatter Class Reference}
+\hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter}{}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter}\index{src.router3d.utils.general.CustomFormatter@{src.router3d.utils.general.CustomFormatter}}
+Inheritance diagram for src.\+router3d.\+utils.\+general.\+Custom\+Formatter:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a59edebaccde2fd683216ffa7f9d92fba}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a59edebaccde2fd683216ffa7f9d92fba} 
+{\bfseries format} (self, record)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_affa30335e18cf329f7d6319b792acbdf}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_affa30335e18cf329f7d6319b792acbdf} 
+str {\bfseries grey} = "{}\textbackslash{}x1b\+[38;21m"{}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a495d134201c3b27006cbed0563d34f4d}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a495d134201c3b27006cbed0563d34f4d} 
+str {\bfseries yellow} = "{}\textbackslash{}x1b\+[33;21m"{}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a06742f67d45ec6e7ca9a472cf3438b14}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a06742f67d45ec6e7ca9a472cf3438b14} 
+str {\bfseries red} = "{}\textbackslash{}x1b\+[31;21m"{}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_aa46e8b6fa0d8649f83efd8f159232964}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_aa46e8b6fa0d8649f83efd8f159232964} 
+str {\bfseries bold\+\_\+red} = "{}\textbackslash{}x1b\+[31;1m"{}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a6abf2e3ec7da16f76ca64d1eb90c044d}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a6abf2e3ec7da16f76ca64d1eb90c044d} 
+str {\bfseries green} = "{}\textbackslash{}x1b\+[32;21m"{}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a6cb0c9b174d24e47ac39137f59d311a5}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a6cb0c9b174d24e47ac39137f59d311a5} 
+str {\bfseries reset} = "{}\textbackslash{}x1b\+[0m"{}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_af53139f044b204acd70fc2bd64a7d492}\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_af53139f044b204acd70fc2bd64a7d492} 
+str {\bfseries format} = "{}\%(asctime)s -\/ \%(filename)s\+[line:\%(lineno)d]\+ -\/ \%(levelname)s: \%(message)s"{}
+\item 
+dict \doxymbox{\hyperlink{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a368de2e23aff898c12baba017157e338}{FORMATS}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Logging Formatter to add colors and count warning / errors\end{DoxyVerb}
+ 
+
+\label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_doc-variable-members}
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a368de2e23aff898c12baba017157e338}\index{src.router3d.utils.general.CustomFormatter@{src.router3d.utils.general.CustomFormatter}!FORMATS@{FORMATS}}
+\index{FORMATS@{FORMATS}!src.router3d.utils.general.CustomFormatter@{src.router3d.utils.general.CustomFormatter}}
+\doxysubsubsection{\texorpdfstring{FORMATS}{FORMATS}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1utils_1_1general_1_1_custom_formatter_a368de2e23aff898c12baba017157e338} 
+dict src.\+router3d.\+utils.\+general.\+Custom\+Formatter.\+FORMATS\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ logging.DEBUG:\ grey\ +\ format\ +\ reset,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ logging.INFO:\ grey\ +\ format\ +\ reset,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ logging.WARNING:\ yellow\ +\ format\ +\ reset,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ logging.ERROR:\ red\ +\ format\ +\ reset,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ logging.CRITICAL:\ bold\_red\ +\ format\ +\ reset,}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+src/\+router3d/\+utils/general.\+py\end{DoxyCompactItemize}

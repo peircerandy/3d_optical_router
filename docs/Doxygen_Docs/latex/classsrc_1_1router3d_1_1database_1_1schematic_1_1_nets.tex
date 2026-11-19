@@ -1,0 +1,177 @@
+\doxysection{src.\+router3d.\+database.\+schematic.\+Nets Class Reference}
+\hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets}{}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets}\index{src.router3d.database.schematic.Nets@{src.router3d.database.schematic.Nets}}
+Inheritance diagram for src.\+router3d.\+database.\+schematic.\+Nets:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1df919810322e7c82f9523c50e8c04cf}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1df919810322e7c82f9523c50e8c04cf} 
+{\bfseries clear\+Net} (self, cirdb, routed=False, increase=True)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a373a4f65985596ac5d9713299fc0c4e5}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a373a4f65985596ac5d9713299fc0c4e5} 
+{\bfseries backup\+\_\+net} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a8675b651dcf3f638a92fe16465404e8b}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a8675b651dcf3f638a92fe16465404e8b} 
+{\bfseries port1} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1384579b0e1b4c5c1a9a550e61ebc7ee}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1384579b0e1b4c5c1a9a550e61ebc7ee} 
+{\bfseries port2} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a52b6cf32203a44b69735e1be22dfe7fe}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a52b6cf32203a44b69735e1be22dfe7fe} 
+{\bfseries instance1} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a78f4f6b97c91f358a077ce7ec6463c80}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a78f4f6b97c91f358a077ce7ec6463c80} 
+{\bfseries instance2} (self)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a0201014e6caf370eddbc26b4d180ecad}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a0201014e6caf370eddbc26b4d180ecad} 
+{\bfseries \+\_\+\+\_\+eq\+\_\+\_} (self, other)
+\begin{DoxyCompactList}\small\item\em This {\bfseries{eq}} and {\bfseries{lt}} function is to make the Net object comparable, so the priority queue knows how to sort nodes. \end{DoxyCompactList}\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a2269ae35fe45cc7c51bf8f17ed58b7ae}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a2269ae35fe45cc7c51bf8f17ed58b7ae} 
+{\bfseries \+\_\+\+\_\+lt\+\_\+\_} (self, other)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a03ae426a6ad55d73da6096d207a74147}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a03ae426a6ad55d73da6096d207a74147} 
+{\bfseries crossing\+\_\+check} (self, net2, straight\+\_\+length)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a3d72bbfd9df697e73feaba9ce42cfc1e}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a3d72bbfd9df697e73feaba9ce42cfc1e} 
+{\bfseries model\+\_\+config} = Config\+Dict(extra="{}forbid"{})
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a2160512a50820d6f004dc6e25d126b2b}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a2160512a50820d6f004dc6e25d126b2b} 
+str {\bfseries net\+Name} = Field(...)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a3dcd39c4368986362988f443fce7d85e}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a3dcd39c4368986362988f443fce7d85e} 
+int {\bfseries net\+ID} = Field(...)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a7066e8ac63d52fc4e25dbbb5a39670a6}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a7066e8ac63d52fc4e25dbbb5a39670a6} 
+int {\bfseries failed\+\_\+count} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a253ac189eea47e8898294215f6c845c3}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a253ac189eea47e8898294215f6c845c3} 
+bool {\bfseries enable\+\_\+45} = True
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a47def6b8984f2f497c610bcc82b48166}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a47def6b8984f2f497c610bcc82b48166} 
+bool {\bfseries routed} = False
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a7c74172f9b3a55fd30c48e775849f435}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a7c74172f9b3a55fd30c48e775849f435} 
+list {\bfseries wg\+\_\+component} = \+[$\,$]
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_aeca2570b2d25dd89aa67abb2bad19325}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_aeca2570b2d25dd89aa67abb2bad19325} 
+set {\bfseries rwguide} = set()
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ace869a3c7a0a7a9b22a0f27224e65f1f}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ace869a3c7a0a7a9b22a0f27224e65f1f} 
+list {\bfseries routed\+\_\+path} = \+[$\,$]
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a9090d82c4d81bedd6660caa46c78b479}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a9090d82c4d81bedd6660caa46c78b479} 
+list {\bfseries origin\+\_\+path} = \+[$\,$]
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ae099c10daaba5cab9db4586d7fabcd96}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ae099c10daaba5cab9db4586d7fabcd96} 
+list {\bfseries rect\+\_\+route} = \+[$\,$]
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a5b4b483fb307730d012114b1b6f67ed7}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a5b4b483fb307730d012114b1b6f67ed7} 
+list {\bfseries groups} = \+[$\,$]
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a944ea2e775377d038b6c8d5ac285b6ca}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a944ea2e775377d038b6c8d5ac285b6ca} 
+str {\bfseries group\+\_\+name} = None
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a27e7be298ebc155730a154b90b2a44f3}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a27e7be298ebc155730a154b90b2a44f3} 
+bool {\bfseries reverse} = False
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_aceed543e56e5b6ab613bebc46137343d}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_aceed543e56e5b6ab613bebc46137343d} 
+bool {\bfseries earlyaccess} = False
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a923411390483528cb37309709102a6e1}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a923411390483528cb37309709102a6e1} 
+int {\bfseries width} = 0.\+5
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a2a77a8759ed2d470b377a57d62c362ec}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a2a77a8759ed2d470b377a57d62c362ec} 
+int {\bfseries wavelength} = 143
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1205e9459dd2431b2dc1f32c1d017729}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1205e9459dd2431b2dc1f32c1d017729} 
+str {\bfseries material} = "{}WG"{}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a9b80b7ef98bfdfa9ea043ff42cb7a9e9}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a9b80b7ef98bfdfa9ea043ff42cb7a9e9} 
+float {\bfseries half\+\_\+size} = 5
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_af16e8b281e716229810e32ef2c2e797b}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_af16e8b281e716229810e32ef2c2e797b} 
+int {\bfseries topology\+\_\+crossing} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ab52bf09f3f7fa0434f3e4860ae62b5b2}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ab52bf09f3f7fa0434f3e4860ae62b5b2} 
+int {\bfseries maximum\+\_\+crossing} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a14bc327524562597e9b3031d3e0b38a1}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a14bc327524562597e9b3031d3e0b38a1} 
+int {\bfseries crossing\+\_\+budget} = 100
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a114b6a380f2bf4cca87c0dd3f21a414f}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a114b6a380f2bf4cca87c0dd3f21a414f} 
+int {\bfseries current\+\_\+budget} = crossing\+\_\+budget
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1b261b31e777299dcec778c0d72318e9}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a1b261b31e777299dcec778c0d72318e9} 
+set {\bfseries crossing\+\_\+nets} = set()
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a90119992be49ba598464beffa79a27b3}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a90119992be49ba598464beffa79a27b3} 
+int {\bfseries vionets} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a4b2aa69f0727cc700fb0c1c49956223f}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a4b2aa69f0727cc700fb0c1c49956223f} 
+set {\bfseries vio\+Nets} = set()
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a6e2789095c7487c053e101dc6b10aec9}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a6e2789095c7487c053e101dc6b10aec9} 
+float {\bfseries insertion\+\_\+loss} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ab19177d83e66915f98c3685fcec90f10}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ab19177d83e66915f98c3685fcec90f10} 
+int {\bfseries wirelength} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ae8d0cde92f7c6f9a9f52c7d0e24f94a1}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ae8d0cde92f7c6f9a9f52c7d0e24f94a1} 
+float {\bfseries bending} = 0
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ad3443affa63abf389a37a071eaa41b62}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ad3443affa63abf389a37a071eaa41b62} 
+int {\bfseries crossing\+\_\+num} = 0
+\item 
+Optional \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a22e0b2b2689c8fbe8d406734f847a56f}{settings}}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_aa15bbd2da496b4e197e44ee8bd25ce42}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_aa15bbd2da496b4e197e44ee8bd25ce42} 
+int {\bfseries routing\+\_\+order} = 10000
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_acdea61f3021d7b085510a1baea2dba80}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_acdea61f3021d7b085510a1baea2dba80} 
+float {\bfseries comp\+\_\+dist} = 100000
+\item 
+Optional \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ac1c06e7aa120ae8619daf4932ed860aa}{distance}}
+\end{DoxyCompactItemize}
+
+
+\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_doc-variable-members}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ac1c06e7aa120ae8619daf4932ed860aa}\index{src.router3d.database.schematic.Nets@{src.router3d.database.schematic.Nets}!distance@{distance}}
+\index{distance@{distance}!src.router3d.database.schematic.Nets@{src.router3d.database.schematic.Nets}}
+\doxysubsubsection{\texorpdfstring{distance}{distance}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_ac1c06e7aa120ae8619daf4932ed860aa} 
+Optional src.\+router3d.\+database.\+schematic.\+Nets.\+distance\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ Field(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}Euler"{}}:\ 1\},\ description=\textcolor{stringliteral}{"{}used\ for\ net\ ordering"{}}}
+\DoxyCodeLine{\ \ \ \ )}
+
+\end{DoxyCode}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a22e0b2b2689c8fbe8d406734f847a56f}\index{src.router3d.database.schematic.Nets@{src.router3d.database.schematic.Nets}!settings@{settings}}
+\index{settings@{settings}!src.router3d.database.schematic.Nets@{src.router3d.database.schematic.Nets}}
+\doxysubsubsection{\texorpdfstring{settings}{settings}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_nets_a22e0b2b2689c8fbe8d406734f847a56f} 
+Optional src.\+router3d.\+database.\+schematic.\+Nets.\+settings\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ Field(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{None},\ description=\textcolor{stringliteral}{"{}Settings\ for\ the\ component"{}}}
+\DoxyCodeLine{\ \ \ \ )}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+src/\+router3d/\+database/schematic.\+py\end{DoxyCompactItemize}

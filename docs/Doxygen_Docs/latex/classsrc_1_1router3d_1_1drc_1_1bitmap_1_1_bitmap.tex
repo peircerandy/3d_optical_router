@@ -1,0 +1,46 @@
+\doxysection{src.\+router3d.\+drc.\+bitmap.\+Bitmap Class Reference}
+\hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap}{}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap}\index{src.router3d.drc.bitmap.Bitmap@{src.router3d.drc.bitmap.Bitmap}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a0d0e2f74f52dc7920cf64d42ceadd170}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a0d0e2f74f52dc7920cf64d42ceadd170} 
+None {\bfseries \+\_\+\+\_\+init\+\_\+\_} (self, Any die\+\_\+size, float resolution=1, int distance=1)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a97d3461e924743723699e9db262cbf9e}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a97d3461e924743723699e9db262cbf9e} 
+{\bfseries init\+Map} (self, blockages)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_ab723458891f3411589efe865c6a2f3d1}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_ab723458891f3411589efe865c6a2f3d1} 
+{\bfseries init\+Ports} (self, db\+Nets, port\+\_\+length=5)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a48a4c145ba4c91d642cda20103b63c83}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a48a4c145ba4c91d642cda20103b63c83} 
+{\bfseries bit\+Map} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_af70a6452115a24d288bcdbc2fbd8fc40}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_af70a6452115a24d288bcdbc2fbd8fc40} 
+{\bfseries width} = round((die\+\_\+size\+[1]\+\+[0]\+ -\/ die\+\_\+size\+[0]\+\+[0]\+) /\+ resolution)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_aa6dd3cf984c03f66906f86b88850c98d}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_aa6dd3cf984c03f66906f86b88850c98d} 
+{\bfseries height} = round((die\+\_\+size\+[1]\+\+[1]\+ -\/ die\+\_\+size\+[0]\+\+[1]\+) /\+ resolution)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a57f9555df6ed4678ec178baafb7e4357}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a57f9555df6ed4678ec178baafb7e4357} 
+int {\bfseries num\+\_\+layers} = 2
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a8ac8ef5953cc6d3666fe51259496ffed}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a8ac8ef5953cc6d3666fe51259496ffed} 
+{\bfseries \+\_\+distance} = distance
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_ae741683eef641bdcde3e273de58d545c}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_ae741683eef641bdcde3e273de58d545c} 
+{\bfseries \+\_\+resolution} = resolution
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a0a4819ed83cc61692fe63371512cea25}\label{classsrc_1_1router3d_1_1drc_1_1bitmap_1_1_bitmap_a0a4819ed83cc61692fe63371512cea25} 
+{\bfseries \+\_\+bitmap} = np.\+empty((self.\+width, self.\+height, self.\+num\+\_\+layers), dtype=object)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+src/\+router3d/\+drc/bitmap.\+py\end{DoxyCompactItemize}

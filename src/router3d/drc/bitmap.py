@@ -224,3 +224,11 @@ class Bitmap:
     @property
     def bitMap(self):
         return self._bitmap
+
+    class Bitmap3D:
+        bitmaplist = []
+        def _init_(self, diesize, resolution, distance, layers = 2):
+            for self.layer in range(0:layers - 1):
+                self.bitmaplist.append(Bitmap(die_size=diesize, resolution=resolution, distance=distance))
+        
+        

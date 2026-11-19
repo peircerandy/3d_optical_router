@@ -1,0 +1,104 @@
+\doxysection{src.\+router3d.\+database.\+schematic.\+Macro Class Reference}
+\hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro}{}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro}\index{src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}}
+Inheritance diagram for src.\+router3d.\+database.\+schematic.\+Macro:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\+[str, str] \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a82d50d6f7c6691da48c56119cb1e92b6}{extract\+\_\+pins}} (cls, gf.\+Component component)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a007a1b9b876e9ddaee77ad876e8f4546}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a007a1b9b876e9ddaee77ad876e8f4546} 
+{\bfseries model\+\_\+config} = Config\+Dict(extra="{}forbid"{})
+\item 
+Optional \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a75a43062aefe224a68bd4f0895778d9e}{property}}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a85f3f3066f5bd5290275a85e84be52e5}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a85f3f3066f5bd5290275a85e84be52e5} 
+float {\bfseries iloss} = 0.\+1
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_ac79f95efafb45716770b4333559e25dc}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_ac79f95efafb45716770b4333559e25dc} 
+str {\bfseries type} = Field("{}CORE"{}, description="{}Class type of the macro"{})
+\item 
+List \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_ae7f0f70717113685a8efd7bc31b39f8f}{origin}}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_ae2d913515cfa0f8281aab2e8f8fac600}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_ae2d913515cfa0f8281aab2e8f8fac600} 
+List {\bfseries size} = Field(\+[1, 1]\+, description="{}dimension in x and y directions"{})
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_aa30f09ac1e4112b74ddd755b9d802184}\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_aa30f09ac1e4112b74ddd755b9d802184} 
+str {\bfseries site} = "{}core"{}
+\item 
+Optional \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a545f2e34a69a11d8ae25a8e6e5a95fc1}{pins}}
+\end{DoxyCompactItemize}
+
+
+\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_doc-func-members}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a82d50d6f7c6691da48c56119cb1e92b6}\index{src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}!extract\_pins@{extract\_pins}}
+\index{extract\_pins@{extract\_pins}!src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}}
+\doxysubsubsection{\texorpdfstring{extract\_pins()}{extract\_pins()}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a82d50d6f7c6691da48c56119cb1e92b6} 
+ Dict\+[str, str]\+ src.\+router3d.\+database.\+schematic.\+Macro.\+extract\+\_\+pins (\begin{DoxyParamCaption}\item[{}]{cls}{, }\item[{gf.\+Component}]{component}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}PIN ck DIRECTION INPUT ;
+    PORT
+    LAYER metal1 ;
+    RECT 0.45 0.500 0.55 1.500 ;
+    END
+END ck
+\end{DoxyVerb}
+ 
+
+\label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_doc-variable-members}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_ae7f0f70717113685a8efd7bc31b39f8f}\index{src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}!origin@{origin}}
+\index{origin@{origin}!src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}}
+\doxysubsubsection{\texorpdfstring{origin}{origin}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_ae7f0f70717113685a8efd7bc31b39f8f} 
+List src.\+router3d.\+database.\+schematic.\+Macro.\+origin\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ Field(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ [0,\ 0],\ description=\textcolor{stringliteral}{"{}Coordinate\ of\ the\ lower-\/left\ corner"{}}}
+\DoxyCodeLine{\ \ \ \ )}
+
+\end{DoxyCode}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a545f2e34a69a11d8ae25a8e6e5a95fc1}\index{src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}!pins@{pins}}
+\index{pins@{pins}!src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}}
+\doxysubsubsection{\texorpdfstring{pins}{pins}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a545f2e34a69a11d8ae25a8e6e5a95fc1} 
+Optional src.\+router3d.\+database.\+schematic.\+Macro.\+pins\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ Field(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{None},\ description=\textcolor{stringliteral}{"{}pin\ difinitions\ as\ a\ dictionary"{}}}
+\DoxyCodeLine{\ \ \ \ )}
+
+\end{DoxyCode}
+\Hypertarget{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a75a43062aefe224a68bd4f0895778d9e}\index{src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}!property@{property}}
+\index{property@{property}!src.router3d.database.schematic.Macro@{src.router3d.database.schematic.Macro}}
+\doxysubsubsection{\texorpdfstring{property}{property}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1database_1_1schematic_1_1_macro_a75a43062aefe224a68bd4f0895778d9e} 
+Optional src.\+router3d.\+database.\+schematic.\+Macro.\+property\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ Field(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{None},\ description=\textcolor{stringliteral}{"{}Properties\ for\ the\ component"{}}}
+\DoxyCodeLine{\ \ \ \ )}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+src/\+router3d/\+database/schematic.\+py\end{DoxyCompactItemize}

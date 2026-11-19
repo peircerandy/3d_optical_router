@@ -1,0 +1,72 @@
+\doxysection{src.\+router3d.\+main.\+PICRoute Class Reference}
+\hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route}{}\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route}\index{src.router3d.main.PICRoute@{src.router3d.main.PICRoute}}
+Inheritance diagram for src.\+router3d.\+main.\+PICRoute:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsrc_1_1router3d_1_1main_1_1_p_i_c_route}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a351074246885c17a5ae0a5abdf0bc58a}\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a351074246885c17a5ae0a5abdf0bc58a} 
+{\bfseries \+\_\+\+\_\+init\+\_\+\_} (self, path, config)
+\item 
+\doxymbox{\hyperlink{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_ad16abedb66b72d586a9a908547786c08}{initialize}} (self)
+\item 
+\doxymbox{\hyperlink{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a651b93823e04fbf71bd1e9a39f1e6f7d}{print\+\_\+welcome}} (self)
+\item 
+\doxymbox{\hyperlink{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_aa29cfaf9c68da12b7319b911e72cba0b}{run}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a6f9df37c95dc67055eeddaa7f85ea667}\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a6f9df37c95dc67055eeddaa7f85ea667} 
+{\bfseries path} = path
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a052bd43a9b6a956ea143689f3f1ba7df}\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a052bd43a9b6a956ea143689f3f1ba7df} 
+{\bfseries config} = config
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_ad25eba11b6a5fdeca78f33dc4c3053de}\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_ad25eba11b6a5fdeca78f33dc4c3053de} 
+{\bfseries cirdb} = \doxymbox{\hyperlink{classsrc_1_1router3d_1_1database_1_1schematic_1_1_custom_schematic}{Custom\+Schematic}}(self.\+path, pdk=None)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a32dd009b7fe2648353f3532d66637c55}\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a32dd009b7fe2648353f3532d66637c55} 
+{\bfseries drc} = \doxymbox{\hyperlink{classsrc_1_1router3d_1_1drc_1_1drcmanager_1_1_drc_manager}{Drc\+Manager}}(self.\+cirdb, self.\+config)
+\item 
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a6fc4d8060a67ec90063944e6994b90c5}\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a6fc4d8060a67ec90063944e6994b90c5} 
+{\bfseries dr} = \doxymbox{\hyperlink{classsrc_1_1router3d_1_1routing_1_1drmanager_1_1_dr_manager}{Dr\+Manager}}(self.\+cirdb, self.\+drc, self.\+config)
+\end{DoxyCompactItemize}
+
+
+\label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_doc-func-members}
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_ad16abedb66b72d586a9a908547786c08}\index{src.router3d.main.PICRoute@{src.router3d.main.PICRoute}!initialize@{initialize}}
+\index{initialize@{initialize}!src.router3d.main.PICRoute@{src.router3d.main.PICRoute}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_ad16abedb66b72d586a9a908547786c08} 
+src.\+router3d.\+main.\+PICRoute.\+initialize (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}brief initialize the routing flow
+\end{DoxyVerb}
+ \Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a651b93823e04fbf71bd1e9a39f1e6f7d}\index{src.router3d.main.PICRoute@{src.router3d.main.PICRoute}!print\_welcome@{print\_welcome}}
+\index{print\_welcome@{print\_welcome}!src.router3d.main.PICRoute@{src.router3d.main.PICRoute}}
+\doxysubsubsection{\texorpdfstring{print\_welcome()}{print\_welcome()}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_a651b93823e04fbf71bd1e9a39f1e6f7d} 
+src.\+router3d.\+main.\+PICRoute.\+print\+\_\+welcome (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}brief print welcome message
+\end{DoxyVerb}
+ \Hypertarget{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_aa29cfaf9c68da12b7319b911e72cba0b}\index{src.router3d.main.PICRoute@{src.router3d.main.PICRoute}!run@{run}}
+\index{run@{run}!src.router3d.main.PICRoute@{src.router3d.main.PICRoute}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily \label{classsrc_1_1router3d_1_1main_1_1_p_i_c_route_aa29cfaf9c68da12b7319b911e72cba0b} 
+src.\+router3d.\+main.\+PICRoute.\+run (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The main function to run the routing flow
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+src/\+router3d/main.\+py\end{DoxyCompactItemize}
