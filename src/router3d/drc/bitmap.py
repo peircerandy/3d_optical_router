@@ -108,8 +108,9 @@ class Bitmap:
         die_size: Any,
         resolution: float = 1,
         distance: int = 1,
+        layers: int = 2,
     ) -> None:
-        layers = 2
+        self.layers = layers
         self.width = round((die_size[1][0] - die_size[0][0]) / resolution)
         self.height = round((die_size[1][1] - die_size[0][1]) / resolution)
         self._distance = distance
