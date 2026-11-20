@@ -109,11 +109,12 @@ class Bitmap:
         resolution: float = 1,
         distance: int = 1,
     ) -> None:
+        layers = 2
         self.width = round((die_size[1][0] - die_size[0][0]) / resolution)
         self.height = round((die_size[1][1] - die_size[0][1]) / resolution)
         self._distance = distance
         self._resolution = resolution
-        self._bitmap = np.empty((self.width, self.height), dtype=object)
+        self._bitmap = np.empty((self.width, self.height, layers), dtype=object)
         self._bitmap = np.vectorize(lambda _: bitmapNode())(self._bitmap)
 
     def initMap(self, blockages):
@@ -224,11 +225,5 @@ class Bitmap:
     @property
     def bitMap(self):
         return self._bitmap
-
-    class Bitmap3D:
-        bitmaplist = []
-        def _init_(self, diesize, resolution, distance, layers = 2):
-            for self.layer in range(0:layers - 1):
-                self.bitmaplist.append(Bitmap(die_size=diesize, resolution=resolution, distance=distance))
         
         

@@ -41,6 +41,7 @@ class DrcManager(object):
 
         self.width = self._bitmap.width
         self.height = self._bitmap.height
+        self.layers = self._bitmap.layers
 
         self.straight = 1
         self.maxCrossing = 10
