@@ -1,3 +1,5 @@
+import importlib
+import logging
 import math
 from collections import Counter
 from copy import deepcopy
@@ -7,6 +9,8 @@ from typing import Dict, List, Optional, Tuple, Union
 import gdsfactory as gf
 import numpy as np
 import shapely.geometry as sg
+
+logger = logging.getLogger(__name__)
 
 from router3d.database.schematic import CustomSchematic, Nets
 from router3d.drc.drcmanager import DrcManager
@@ -630,14 +634,13 @@ class AstarSearch:
         from_layer=0,
         to_layer=1,
     ):
-        """Generates a physical bi-level adiabatic taper transition component between Si and SiN tiers.
+        """Generates a physical inter-tier transition component between arbitrary layers.
 
-        Places:
-        - Layer (1, 0): Silicon taper core
-        - Layer (2, 0): Silicon Nitride taper core
-        - Layer (3, 0): Vertical optical coupler keep-out / via window
+        Supports:
+        - Configured PDK cell instantiation (if type: 'pdk')
+        - Dynamic procedural bi-level adiabatic taper generator (default / fallback)
+        Emits an explicit warning if an expected PDK component cannot be loaded.
         """
-        c = gf.Component(f"via3d_{from_layer}_to_{to_layer}_{int(start_pt[0])}_{int(start_pt[1])}")
         x1, y1 = start_pt
         x2, y2 = end_pt
         dx = x2 - x1
@@ -645,37 +648,72 @@ class AstarSearch:
         length = math.hypot(dx, dy)
         angle = math.degrees(math.atan2(dy, dx))
 
-        si_info = self.layers.get(0, {})
-        sin_info = self.layers.get(1, {})
-        w_si = float(si_info.get("waveguide_width", 0.5))
-        w_sin = float(sin_info.get("waveguide_width", 0.8))
-        tip_w = 0.15
-        layer_si = tuple(si_info.get("gds_layer", [1, 0]))
-        layer_sin = tuple(sin_info.get("gds_layer", [2, 0]))
-        layer_via = (3, 0)
+        trans_key = f"{from_layer}-{to_layer}"
+        rev_key = f"{to_layer}-{from_layer}"
+        trans_cfg = self.transitions.get(trans_key, self.transitions.get(rev_key, {}))
 
-        # Si taper profile
-        w_si_start = w_si if from_layer == 0 else tip_w
-        w_si_end = tip_w if from_layer == 0 else w_si
+        coupler_type = str(trans_cfg.get("type", "procedural")).lower()
+        if coupler_type == "pdk":
+            pdk_cell = trans_cfg.get("pdk_cell", None)
+            if not pdk_cell:
+                warn_msg = (
+                    f"[3D Router WARNING] Transition '{trans_key}' is configured with type='pdk' "
+                    f"but 'pdk_cell' is not specified. Falling back to procedural adiabatic taper."
+                )
+                logger.warning(warn_msg)
+                print(warn_msg)
+            else:
+                try:
+                    parts = pdk_cell.rsplit(".", 1)
+                    if len(parts) == 2:
+                        mod = importlib.import_module(parts[0])
+                        func = getattr(mod, parts[1])
+                    else:
+                        func = getattr(gf.components, parts[0])
+                    pdk_comp = func()
+                    c = gf.Component(f"pdk_via_{from_layer}_to_{to_layer}_{int(start_pt[0])}_{int(start_pt[1])}")
+                    ref = c << pdk_comp
+                    if angle != 0:
+                        ref.rotate(angle)
+                    ref.move(origin=(x1, y1))
+                    return c, length
+                except Exception as e:
+                    warn_msg = (
+                        f"[3D Router WARNING] Failed to load PDK cell '{pdk_cell}' for transition '{trans_key}': {e}. "
+                        f"Falling back to procedural adiabatic taper."
+                    )
+                    logger.warning(warn_msg)
+                    print(warn_msg)
 
-        # SiN taper profile
-        w_sin_start = tip_w if from_layer == 0 else w_sin
-        w_sin_end = w_sin if from_layer == 0 else tip_w
+        # Procedural adiabatic taper generator generalized for arbitrary tier pairs
+        c = gf.Component(f"via3d_{from_layer}_to_{to_layer}_{int(start_pt[0])}_{int(start_pt[1])}")
+        from_info = self.layers.get(from_layer, {})
+        to_info = self.layers.get(to_layer, {})
+        w_from = float(from_info.get("waveguide_width", 0.5))
+        w_to = float(to_info.get("waveguide_width", 0.8))
+        gds_from = tuple(from_info.get("gds_layer", [from_layer + 1, 0]))
+        gds_to = tuple(to_info.get("gds_layer", [to_layer + 1, 0]))
 
-        si_poly = [
-            (0.0, -w_si_start / 2),
-            (length, -w_si_end / 2),
-            (length, w_si_end / 2),
-            (0.0, w_si_start / 2),
+        tip_from = float(trans_cfg.get("tip_width_from", 0.15))
+        tip_to = float(trans_cfg.get("tip_width_to", 0.15))
+        via_w = float(trans_cfg.get("taper_width", 2.0))
+        via_layer = tuple(trans_cfg.get("via_layer", [3, 0]))
+
+        # From-layer core tapers down: w_from -> tip_from
+        from_poly = [
+            (0.0, -w_from / 2),
+            (length, -tip_from / 2),
+            (length, tip_from / 2),
+            (0.0, w_from / 2),
         ]
-        sin_poly = [
-            (0.0, -w_sin_start / 2),
-            (length, -w_sin_end / 2),
-            (length, w_sin_end / 2),
-            (0.0, w_sin_start / 2),
+        # To-layer core tapers up: tip_to -> w_to
+        to_poly = [
+            (0.0, -tip_to / 2),
+            (length, -w_to / 2),
+            (length, w_to / 2),
+            (0.0, tip_to / 2),
         ]
-        trans_def = self.transitions.get("0-1", {})
-        via_w = float(trans_def.get("taper_width", 2.0))
+        # Via / keep-out boundary
         via_poly = [
             (0.0, -via_w / 2),
             (length, -via_w / 2),
@@ -693,9 +731,9 @@ class AstarSearch:
                 for px, py in pts
             ]
 
-        c.add_polygon(points=transform(si_poly), layer=layer_si)
-        c.add_polygon(points=transform(sin_poly), layer=layer_sin)
-        c.add_polygon(points=transform(via_poly), layer=layer_via)
+        c.add_polygon(points=transform(from_poly), layer=gds_from)
+        c.add_polygon(points=transform(to_poly), layer=gds_to)
+        c.add_polygon(points=transform(via_poly), layer=via_layer)
         return c, length
 
     def _hard_connection_3d(self, currentNode, path, origin_path, violatedNets, radius=5):
@@ -749,6 +787,14 @@ class AstarSearch:
                 except Exception:
                     pass
 
+        # Union all subpath rectangles to record complete net occupancy
+        rect_union = None
+        for rect_r in all_rect_routes:
+            if rect_union is None:
+                rect_union = rect_r
+            else:
+                rect_union = self.sets_union(rect_union, rect_r)
+
         for from_l, to_l, p1, p2 in transitions:
             p1_um = (p1[0] * res + res / 2, p1[1] * res + res / 2)
             p2_um = (p2[0] * res + res / 2, p2[1] * res + res / 2)
@@ -758,13 +804,32 @@ class AstarSearch:
             self._net.wg_component.append(coupler)
             total_length += c_len
 
+            # Track via runway in net rectangle occupancy for NRR rip-up and DRC bitmap
+            via_pts = np.array([p1_um, p2_um])
+            try:
+                via_path = gf.Path(via_pts)
+                trans_key = f"{from_l}-{to_l}"
+                rev_key = f"{to_l}-{from_l}"
+                t_cfg = self.transitions.get(trans_key, self.transitions.get(rev_key, {}))
+                t_w = float(t_cfg.get("taper_width", 2.0))
+                via_route = gf.path.extrude(via_path, width=t_w, layer=tuple(t_cfg.get("via_layer", [3, 0])))
+                via_rects = self.fast_split_polygon_to_rectangles(via_route, res)
+                if rect_union is None:
+                    rect_union = via_rects
+                else:
+                    rect_union = self.sets_union(rect_union, via_rects)
+            except Exception:
+                pass
+
         self._net.via_num = len(transitions)
         self._net.wirelength = total_length
         self._net.bending = total_bending
         self._net.origin_path = origin_path
         self._net.crossing_nets = self._crossing_nets
         self._net.crossing_num = len(self._crossing_nets)
-        if all_rect_routes:
+        if rect_union is not None:
+            self._net.rect_route = rect_union
+        elif all_rect_routes:
             self._net.rect_route = all_rect_routes[0]
         self._net.routed_path = [
             [all_segments, self.start_port.gf_port, self.end_port.gf_port]

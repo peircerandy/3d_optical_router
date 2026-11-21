@@ -48,9 +48,14 @@ dr:
   transitions:
     "0-1":
       name: "Si_to_SiN_adiabatic"
+      type: "procedural"      # "procedural" (default) or "pdk"
+      pdk_cell: null          # e.g. "ubcpdk.components.adiabatic_coupler" or "gdsfactory.components.taper"
       loss_taper: 0.08        # dB per transition (Li et al.)
       taper_length: 55.0      # um length along waveguide vector (Li et al.)
       taper_width: 2.0        # um transverse width
+      tip_width_from: 0.15    # um tip width on origin tier
+      tip_width_to: 0.15      # um tip width on destination tier
+      via_layer: [3, 0]       # GDS layer for via keep-out / transition marker
       bidirectional: true
 
   # ============================================================================
